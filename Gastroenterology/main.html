@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vonacab™ Campaign Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
+
+/* ════════════════════════════════════
+   LAYOUT SHELL
+════════════════════════════════════ */
+.app{display:flex;flex-direction:column;height:100vh;}
+
+/* ── TOP HEADER ── */
+.header{
+  height:70px;flex-shrink:0;
+  background:#fff;
+  border-bottom:1px solid #dde3ed;
+  display:flex;align-items:center;
+  padding:0 28px;gap:0;
+  box-shadow:0 1px 6px rgba(0,0,0,0.07);
+  z-index:100;
+}
+.header-logos{display:flex;align-items:center;gap:14px;}
+.header-logos img{height:44px;max-width:130px;object-fit:contain;}
+.header-logos img.logo-vc{height:54px;max-width:150px;}
+.header-logos img.logo-aga{height:50px;max-width:150px;}
+.header-logos img.logo-mc{height:38px;}
+.nav-copyright{font-size:0.5rem;color:rgba(255,255,255,0.2);text-align:center;padding:8px 4px 0;letter-spacing:0.4px;line-height:1.5;}
+.hlogo-sep{width:1px;height:28px;background:#dde3ed;flex-shrink:0;}
+.header-center{
+  flex:1;text-align:center;
+  font-size:0.78rem;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:#8a96b0;
+}
+.header-right{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.header-user{font-size:0.8rem;color:#344467;font-weight:600;}
+.header-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:#1e3a8a;color:#fff;font-size:0.78rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+
+/* ── BODY ROW ── */
+.body-row{display:flex;flex:1;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:80px;flex-shrink:0;
+  background:#1e3a8a;
+  display:flex;flex-direction:column;
+  align-items:center;
+  padding:18px 0 24px;
+  gap:4px;
+  overflow:hidden;
+}
+.nav-item{
+  width:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:5px;padding:12px 6px;cursor:pointer;
+  border:none;background:none;
+  color:rgba(255,255,255,0.5);
+  font-family:'Inter',sans-serif;font-size:0.56rem;
+  font-weight:600;letter-spacing:0.8px;text-transform:uppercase;
+  transition:background 0.15s,color 0.15s;
+  position:relative;
+}
+.nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.nav-item:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);}
+.nav-item.active{background:rgba(255,255,255,0.14);color:#fff;}
+.nav-item.active::left-bar{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:#c8a84b;}
+.nav-item.active::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;background:#c8a84b;border-radius:0 2px 2px 0;}
+.nav-spacer{flex:1;}
+.nav-item.signout{color:rgba(255,120,120,0.7);}
+.nav-item.signout:hover{color:#ff8080;background:rgba(255,80,80,0.1);}
+
+/* ── MAIN CONTENT ── */
+.main{
+  flex:1;overflow-y:auto;
+  background:#f5f0e8;
+  position:relative;
+}
+.main::before{
+  content:'VONACAB';
+  position:fixed;
+  font-size:9rem;font-weight:900;
+  color:rgba(30,58,138,0.04);
+  letter-spacing:12px;
+  top:50%;left:50%;
+  transform:translate(-40%,-50%) rotate(-15deg);
+  pointer-events:none;
+  z-index:0;white-space:nowrap;
+}
+.view{display:none;position:relative;z-index:1;}
+.view.active{display:block;}
+
+/* ════ MODULES VIEW ════ */
+.page-topbar{
+  background:#fff;border-bottom:1px solid #dde3ed;
+  padding:16px 36px;display:flex;align-items:center;justify-content:space-between;
+}
+.page-topbar h2{font-size:1rem;font-weight:700;color:#1a2540;letter-spacing:-0.2px;}
+.page-topbar span{font-size:0.75rem;color:#8a96b0;}
+
+.modules-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;padding:28px 36px;
+}
+.mod-card{
+  background:#fff;border-radius:10px;
+  border:1px solid #dde3ed;
+  box-shadow:0 1px 4px rgba(0,0,0,0.05);
+  overflow:hidden;
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.mod-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(30,58,138,0.1);}
+.mod-card-top{
+  height:7px;
+  background:linear-gradient(to right,#1e3a8a,#3b82f6);
+}
+.mod-card-body{padding:20px 22px 18px;}
+.mod-num{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8a96b0;margin-bottom:8px;}
+.mod-title{font-size:0.92rem;font-weight:700;color:#1a2540;line-height:1.35;margin-bottom:10px;}
+.mod-desc{font-size:0.75rem;color:#6b7a99;line-height:1.65;margin-bottom:18px;}
+.mod-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid #edf0f7;}
+.btn-read{
+  height:32px;padding:0 18px;
+  background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  border:none;border-radius:5px;cursor:pointer;
+  transition:background 0.15s;
+}
+.btn-read:hover{background:#162d6b;}
+.mod-tag{
+  font-size:0.62rem;font-weight:600;letter-spacing:0.5px;
+  text-transform:uppercase;color:#1e3a8a;
+  background:#eef2fb;padding:3px 10px;border-radius:20px;
+}
+
+/* ════ TOC VIEW ════ */
+.toc-wrap{padding:28px 36px;}
+.back-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:none;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:0.78rem;
+  font-weight:600;color:#1e3a8a;margin-bottom:20px;padding:0;
+}
+.back-btn:hover{text-decoration:underline;}
+.back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.toc-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;max-width:760px;}
+.toc-head{
+  background:linear-gradient(135deg,#0f2260,#1e3a8a);
+  padding:24px 28px;
+}
+.toc-head .mod-label{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:6px;}
+.toc-head h2{font-size:1.25rem;font-weight:800;color:#fff;line-height:1.3;}
+.toc-body{padding:0;}
+.toc-item{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:16px 28px;border-bottom:1px solid #f0f3f9;
+  cursor:pointer;transition:background 0.12s;
+}
+.toc-item:last-child{border-bottom:none;}
+.toc-item:hover{background:#f8f9fd;}
+.toc-index{
+  width:28px;height:28px;border-radius:50%;
+  background:#eef2fb;color:#1e3a8a;
+  font-size:0.72rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.toc-text h4{font-size:0.85rem;font-weight:600;color:#1a2540;margin-bottom:3px;}
+.toc-text p{font-size:0.75rem;color:#8a96b0;line-height:1.5;}
+.toc-arrow{margin-left:auto;color:#c8c8d8;align-self:center;flex-shrink:0;}
+.toc-arrow svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ════ READING VIEW ════ */
+.read-wrap{max-width:820px;margin:0 auto;padding:32px 36px 60px;}
+.read-top-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+.read-chapter-label{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;}
+.read-doc{background:#fff;border-radius:10px;border:1px solid #dde3ed;box-shadow:0 2px 12px rgba(0,0,0,0.06);overflow:hidden;}
+.read-doc-head{background:linear-gradient(135deg,#0f2260,#1e3a8a);padding:28px 36px;}
+.read-doc-head h1{font-size:1.4rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:6px;}
+.read-doc-head p{font-size:0.8rem;color:rgba(255,255,255,0.55);}
+.read-doc-body{padding:32px 36px;}
+.read-doc-body h3{font-size:0.95rem;font-weight:700;color:#1a2540;margin:24px 0 10px;padding-bottom:8px;border-bottom:2px solid #f0e8d5;}
+.read-doc-body h3:first-child{margin-top:0;}
+.read-doc-body p{font-size:0.85rem;color:#374151;line-height:1.85;margin-bottom:12px;}
+.read-doc-body ul{padding-left:20px;margin-bottom:14px;}
+.read-doc-body ul li{font-size:0.84rem;color:#374151;line-height:1.75;margin-bottom:5px;}
+.read-doc-body .highlight-box{
+  background:#fef9ee;border-left:4px solid #c8a84b;
+  border-radius:0 6px 6px 0;padding:14px 18px;margin:16px 0;
+}
+.read-doc-body .highlight-box p{margin:0;font-size:0.83rem;color:#5a4a1a;}
+.read-nav-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:24px;
+}
+.btn-nav{
+  height:38px;padding:0 20px;border-radius:6px;
+  font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:600;
+  cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:7px;
+}
+.btn-nav svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.btn-nav.secondary{background:#fff;border:1.5px solid #dde3ed;color:#374151;}
+.btn-nav.secondary:hover{border-color:#1e3a8a;color:#1e3a8a;}
+.btn-nav.primary{background:#1e3a8a;border:none;color:#fff;}
+.btn-nav.primary:hover{background:#162d6b;}
+
+/* ════ QUESTIONS VIEW ════ */
+.questions-wrap{padding:28px 36px;}
+.q-module-list{display:flex;flex-direction:column;gap:14px;max-width:780px;}
+.q-row{
+  background:#fff;border-radius:10px;border:1px solid #dde3ed;
+  padding:18px 22px;display:flex;align-items:center;gap:18px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04);
+}
+.q-num{
+  width:36px;height:36px;border-radius:50%;
+  background:#eef2fb;color:#1e3a8a;
+  font-size:0.8rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.q-info{flex:1;}
+.q-info h4{font-size:0.88rem;font-weight:700;color:#1a2540;margin-bottom:5px;}
+.q-progress-wrap{display:flex;align-items:center;gap:10px;}
+.q-progress-bar{flex:1;height:5px;background:#eef2fb;border-radius:3px;overflow:hidden;}
+.q-progress-fill{height:100%;background:linear-gradient(to right,#1e3a8a,#3b82f6);border-radius:3px;transition:width 0.3s;}
+.q-progress-pct{font-size:0.7rem;color:#8a96b0;font-weight:600;white-space:nowrap;}
+.btn-start{
+  height:34px;padding:0 20px;
+  background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;
+  letter-spacing:0.8px;text-transform:uppercase;
+  border:none;border-radius:5px;cursor:pointer;flex-shrink:0;
+  transition:background 0.15s;
+}
+.btn-start:hover{background:#162d6b;}
+.btn-start.done{background:#16a34a;}
+
+/* ════ SINGLE QUESTION VIEW ════ */
+.quiz-wrap{max-width:720px;margin:0 auto;padding:28px 36px 60px;}
+.quiz-progress-top{
+  display:flex;align-items:center;gap:14px;margin-bottom:22px;
+}
+.quiz-progress-top .q-bar{flex:1;height:6px;background:#dde3ed;border-radius:3px;overflow:hidden;}
+.quiz-progress-top .q-fill{height:100%;background:#1e3a8a;border-radius:3px;transition:width 0.3s;}
+.quiz-progress-top span{font-size:0.75rem;color:#8a96b0;font-weight:600;white-space:nowrap;}
+.quiz-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.quiz-card-head{background:linear-gradient(135deg,#0f2260,#1e3a8a);padding:22px 28px;}
+.quiz-card-head .q-label{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:8px;}
+.quiz-card-head p{font-size:0.95rem;font-weight:600;color:#fff;line-height:1.5;}
+.quiz-options{padding:20px 28px 24px;display:flex;flex-direction:column;gap:10px;}
+.option-btn{
+  width:100%;text-align:left;
+  display:flex;align-items:flex-start;gap:14px;
+  padding:13px 16px;border-radius:7px;
+  border:1.5px solid #dde3ed;background:#fafbfd;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  transition:border-color 0.15s,background 0.15s;
+}
+.option-btn:hover{border-color:#1e3a8a;background:#eef2fb;}
+.option-btn.selected{border-color:#1e3a8a;background:#eef2fb;}
+.option-btn.correct{border-color:#16a34a;background:#f0fdf4;}
+.option-btn.wrong{border-color:#dc2626;background:#fef2f2;}
+.opt-letter{
+  width:26px;height:26px;border-radius:50%;
+  background:#eef2fb;color:#1e3a8a;
+  font-size:0.72rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.option-btn.selected .opt-letter{background:#1e3a8a;color:#fff;}
+.option-btn.correct .opt-letter{background:#16a34a;color:#fff;}
+.option-btn.wrong .opt-letter{background:#dc2626;color:#fff;}
+.opt-text{font-size:0.85rem;color:#374151;line-height:1.5;padding-top:3px;}
+.quiz-footer{
+  padding:16px 28px;border-top:1px solid #edf0f7;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fafbfd;
+}
+.quiz-feedback{font-size:0.8rem;font-weight:600;}
+.quiz-feedback.correct{color:#16a34a;}
+.quiz-feedback.wrong{color:#dc2626;}
+.btn-submit{
+  height:38px;padding:0 24px;
+  background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:700;
+  border:none;border-radius:6px;cursor:pointer;
+  transition:background 0.15s;
+}
+.btn-submit:hover{background:#162d6b;}
+.btn-submit:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* ════ CERTIFICATE VIEW ════ */
+.cert-wrap{padding:28px 36px;max-width:780px;}
+.cert-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.cert-head{background:linear-gradient(135deg,#0f2260,#1e3a8a);padding:22px 28px;}
+.cert-head h2{font-size:1.1rem;font-weight:800;color:#fff;}
+.cert-head p{font-size:0.78rem;color:rgba(255,255,255,0.55);margin-top:4px;}
+.cert-body{padding:24px 28px;}
+.cert-steps{display:flex;flex-direction:column;gap:14px;}
+.cert-step{display:flex;align-items:center;gap:16px;}
+.cert-step-icon{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.cert-step-icon.done{background:#dcfce7;}
+.cert-step-icon.doing{background:#dbeafe;}
+.cert-step-icon.todo{background:#f3f4f6;}
+.cert-step-icon svg{width:18px;height:18px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;}
+.cert-step-icon.done svg{stroke:#16a34a;}
+.cert-step-icon.doing svg{stroke:#1e3a8a;}
+.cert-step-icon.todo svg{stroke:#9ca3af;}
+.cert-step-info{flex:1;}
+.cert-step-info h4{font-size:0.85rem;font-weight:700;color:#1a2540;margin-bottom:4px;}
+.cert-prog{height:6px;background:#eef2fb;border-radius:3px;overflow:hidden;max-width:400px;}
+.cert-prog-fill{height:100%;background:linear-gradient(to right,#1e3a8a,#3b82f6);border-radius:3px;}
+.cert-step-pct{font-size:0.72rem;color:#8a96b0;margin-top:4px;font-weight:500;}
+.cert-eligibility{
+  margin-top:20px;padding:16px 20px;
+  background:#fef9ee;border:1px solid #f0d080;border-radius:8px;
+  display:flex;align-items:center;gap:14px;
+}
+.cert-eligibility svg{width:22px;height:22px;stroke:#c8a84b;fill:none;stroke-width:2;flex-shrink:0;}
+.cert-eligibility p{font-size:0.8rem;color:#7a5a10;line-height:1.6;}
+.btn-cert{
+  height:42px;padding:0 28px;
+  background:#c8a84b;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:700;
+  border:none;border-radius:6px;cursor:pointer;margin-top:20px;
+  letter-spacing:0.5px;transition:background 0.15s;
+}
+.btn-cert:hover{background:#a88a30;}
+/* ── module progress ── */
+.mod-progress{margin:10px 0 14px;display:flex;flex-direction:column;gap:6px;}
+.mod-prog-row{display:flex;align-items:center;gap:8px;font-size:0.7rem;color:#6b7a99;}
+.mod-prog-label{width:66px;font-weight:600;flex-shrink:0;}
+.mod-prog-bar{flex:1;height:5px;background:#eef2fb;border-radius:3px;overflow:hidden;}
+.mod-prog-fill{height:100%;border-radius:3px;transition:width 0.4s;}
+.mod-prog-fill.read{background:linear-gradient(to right,#1e3a8a,#3b82f6);}
+.mod-prog-fill.quiz{background:linear-gradient(to right,#16a34a,#4ade80);}
+.mod-prog-pct{width:32px;text-align:right;font-weight:600;flex-shrink:0;}
+.toc-read-badge{font-size:0.62rem;font-weight:700;color:#16a34a;margin-left:auto;padding-right:8px;flex-shrink:0;}
+
+/* ════ SEARCH VIEW ════ */
+.search-wrap{padding:28px 36px;max-width:700px;}
+.search-box-wrap{position:relative;margin-bottom:24px;}
+.search-box-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:#8a96b0;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.search-input{
+  width:100%;height:46px;padding:0 14px 0 42px;
+  background:#fff;border:1.5px solid #dde3ed;border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:0.9rem;color:#1a2540;
+  outline:none;transition:border-color 0.15s,box-shadow 0.15s;
+}
+.search-input:focus{border-color:#1e3a8a;box-shadow:0 0 0 3px rgba(30,58,138,0.08);}
+.search-result{
+  background:#fff;border-radius:8px;border:1px solid #dde3ed;overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,0.05);
+}
+.search-result-item{
+  padding:14px 20px;border-bottom:1px solid #f0f3f9;cursor:pointer;
+  transition:background 0.12s;
+}
+.search-result-item:last-child{border-bottom:none;}
+.search-result-item:hover{background:#f8f9fd;}
+.search-result-item h4{font-size:0.84rem;font-weight:600;color:#1a2540;margin-bottom:3px;}
+.search-result-item p{font-size:0.75rem;color:#8a96b0;}
+.search-empty{text-align:center;padding:40px 20px;color:#8a96b0;font-size:0.85rem;}
+
+/* ════ PROFILE VIEW ════ */
+.profile-wrap{padding:28px 36px;max-width:600px;}
+.profile-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.profile-head{
+  background:linear-gradient(135deg,#0f2260,#1e3a8a);
+  padding:28px;display:flex;align-items:center;gap:18px;
+}
+.profile-avatar-big{
+  width:60px;height:60px;border-radius:50%;
+  background:rgba(200,168,75,0.8);color:#fff;
+  font-size:1.3rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  border:3px solid rgba(255,255,255,0.2);
+}
+.profile-head-info h2{font-size:1.05rem;font-weight:700;color:#fff;}
+.profile-head-info p{font-size:0.78rem;color:rgba(255,255,255,0.55);margin-top:3px;}
+.profile-body{padding:28px;}
+.pfield{margin-bottom:20px;}
+.pfield label{display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#6b7a99;margin-bottom:7px;}
+.pfield input{
+  width:100%;height:42px;padding:0 14px;
+  background:#f8f9fc;border:1.5px solid #dde3ed;border-radius:6px;
+  font-family:'Inter',sans-serif;font-size:0.88rem;color:#1a2540;
+  outline:none;transition:border-color 0.15s;
+}
+.pfield input:focus{border-color:#1e3a8a;background:#fff;}
+.pfield input[readonly]{color:#8a96b0;cursor:default;}
+.btn-save{
+  height:42px;padding:0 28px;background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:700;
+  border:none;border-radius:6px;cursor:pointer;transition:background 0.15s;
+}
+.btn-save:hover{background:#162d6b;}
+
+/* ════ TOAST ════ */
+.toast{
+  position:fixed;bottom:28px;right:28px;z-index:9999;
+  background:#1a2540;color:#fff;
+  padding:12px 20px;border-radius:8px;font-size:0.82rem;font-weight:500;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  opacity:0;transform:translateY(10px);
+  transition:opacity 0.2s,transform 0.2s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* ════ NAME PROMPT MODAL ════ */
+.name-modal-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.2s;
+}
+.name-modal-overlay.open{opacity:1;pointer-events:all;}
+.name-modal{
+  background:#1a2540;border-radius:14px;padding:32px 28px 28px;
+  width:380px;max-width:90vw;
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+  transform:translateY(12px);transition:transform 0.2s;
+}
+.name-modal-overlay.open .name-modal{transform:translateY(0);}
+.name-modal h3{font-size:1.05rem;font-weight:700;color:#f1f5f9;margin-bottom:6px;}
+.name-modal p{font-size:0.8rem;color:#64748b;margin-bottom:18px;line-height:1.55;}
+.name-modal input{
+  width:100%;height:42px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);color:#f1f5f9;padding:0 14px;
+  font-size:0.88rem;font-family:inherit;outline:none;transition:border-color 0.15s;
+}
+.name-modal input:focus{border-color:#c8a84b;}
+.name-modal input::placeholder{color:#475569;}
+.name-modal-actions{display:flex;gap:10px;margin-top:16px;}
+.name-modal-actions button{
+  flex:1;height:40px;border-radius:8px;font-size:0.83rem;font-weight:600;
+  font-family:inherit;cursor:pointer;border:none;transition:filter 0.15s;
+}
+.nm-cancel{background:rgba(255,255,255,0.07);color:#64748b;}
+.nm-cancel:hover{background:rgba(255,255,255,0.11);}
+.nm-confirm{background:#c8a84b;color:#fff;}
+.nm-confirm:hover{filter:brightness(1.1);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-logos">
+      <img src="GlobalPharma Logo_ver(2020)_isolated.png" alt="GlobalPharma">
+      <div class="hlogo-sep"></div>
+      <img src="Vonacab logo 2.png" alt="Vonacab" class="logo-vc">
+      <div class="hlogo-sep"></div>
+      <img src="AGA-Logo-removebg-preview.png" alt="AGA" class="logo-aga">
+      <div class="hlogo-sep"></div>
+      <img src="MD_Logo.png" alt="MD Logo" class="logo-mc">
+    </div>
+    <div class="header-center">Vonacab™ Campaign Portal</div>
+    <div class="header-right">
+      <span class="header-user" id="headerUser">User</span>
+      <div class="header-avatar" id="headerAvatar">U</div>
+    </div>
+  </header>
+
+  <div class="body-row">
+
+    <!-- ══ SIDEBAR ══ -->
+    <nav class="sidebar">
+      <button class="nav-item active" onclick="showView('modules',this)" id="nav-modules">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Modules
+      </button>
+      <button class="nav-item" onclick="showView('questions',this)" id="nav-questions">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Questions
+      </button>
+      <button class="nav-item" onclick="showView('certificate',this)" id="nav-certificate">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Certificate
+      </button>
+      <button class="nav-item" onclick="showView('search',this)" id="nav-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search
+      </button>
+      <div class="nav-spacer"></div>
+      <button class="nav-item" onclick="showView('profile',this)" id="nav-profile">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </button>
+      <button class="nav-item signout" onclick="logout()">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+      <div class="nav-copyright">© Mind<br>Comm.</div>
+    </nav>
+
+    <!-- ══ MAIN ══ -->
+    <main class="main" id="mainArea">
+
+      <!-- ▸ MODULES -->
+      <div class="view active" id="view-modules">
+        <div class="page-topbar">
+          <h2>Learning Modules</h2>
+          <span>7 modules available — click a module to begin reading</span>
+        </div>
+        <div class="modules-grid" id="moduleGrid"></div>
+      </div>
+
+      <!-- ▸ TABLE OF CONTENTS (dynamic) -->
+      <div class="view" id="view-toc">
+        <div class="toc-wrap">
+          <button class="back-btn" onclick="showView('modules',document.getElementById('nav-modules'))">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Modules
+          </button>
+          <div class="toc-card" id="tocCard"></div>
+        </div>
+      </div>
+
+      <!-- ▸ READING (dynamic) -->
+      <div class="view" id="view-reading">
+        <div class="read-wrap">
+          <div class="read-top-nav">
+            <button class="back-btn" onclick="backToToc()">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              Table of Contents
+            </button>
+            <span class="read-chapter-label" id="readChapterLabel"></span>
+          </div>
+          <div class="read-doc" id="readDoc"></div>
+          <div class="read-nav-bottom">
+            <button class="btn-nav secondary" id="btnPrevChapter" onclick="navigateChapter(-1)">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              Previous
+            </button>
+            <button class="btn-nav primary" id="btnNextChapter" onclick="navigateChapter(1)">
+              Next
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▸ QUESTIONS LIST -->
+      <div class="view" id="view-questions">
+        <div class="page-topbar">
+          <h2>Module Questions</h2>
+          <span>Test your knowledge for each module</span>
+        </div>
+        <div class="questions-wrap">
+          <div class="q-module-list" id="qModuleList"></div>
+        </div>
+      </div>
+
+      <!-- ▸ QUIZ -->
+      <div class="view" id="view-quiz">
+        <div class="quiz-wrap">
+          <button class="back-btn" onclick="showView('questions',document.getElementById('nav-questions'))">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Questions
+          </button>
+          <div class="quiz-progress-top">
+            <div class="q-bar"><div class="q-fill" id="quizProgressFill"></div></div>
+            <span id="quizProgressLabel">1 / 5</span>
+          </div>
+          <div class="quiz-card">
+            <div class="quiz-card-head">
+              <div class="q-label" id="quizModLabel"></div>
+              <p id="quizQuestion"></p>
+            </div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-footer">
+              <span class="quiz-feedback" id="quizFeedback"></span>
+              <button class="btn-submit" id="btnSubmit" onclick="submitAnswer()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▸ CERTIFICATE -->
+      <div class="view" id="view-certificate">
+        <div class="page-topbar">
+          <h2>Certificate of Completion</h2>
+          <span>Complete all modules and questions to earn your certificate</span>
+        </div>
+        <div class="cert-wrap">
+          <div class="cert-card">
+            <div class="cert-head">
+              <h2>CME Certificate Path</h2>
+              <p>Track your progress toward earning the Vonacab™ Campaign Certificate</p>
+            </div>
+            <div class="cert-body">
+              <div class="cert-steps" id="certSteps"></div>
+              <div class="cert-eligibility">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p id="certNote">Complete all 7 modules and pass all question sets to become eligible for your certificate.</p>
+              </div>
+              <button class="btn-cert" id="btnDownloadCert" disabled onclick="downloadCert()">Download Certificate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▸ SEARCH -->
+      <div class="view" id="view-search">
+        <div class="page-topbar">
+          <h2>Search</h2>
+          <span>Search across all modules</span>
+        </div>
+        <div class="search-wrap">
+          <div class="search-box-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search modules, topics, keywords…" oninput="doSearch(this.value)">
+          </div>
+          <div id="searchResults"><div class="search-empty">Start typing to search across all modules.</div></div>
+        </div>
+      </div>
+
+      <!-- ▸ PROFILE -->
+      <div class="view" id="view-profile">
+        <div class="page-topbar">
+          <h2>My Profile</h2>
+          <span>Your account details</span>
+        </div>
+        <div class="profile-wrap">
+          <div class="profile-card">
+            <div class="profile-head">
+              <div class="profile-avatar-big" id="profileAvatarBig">U</div>
+              <div class="profile-head-info">
+                <h2 id="profileName">User</h2>
+                <p>Portal Member — Vonacab™ Campaign</p>
+              </div>
+            </div>
+            <div class="profile-body">
+              <div class="pfield"><label>Full Name</label><input type="text" id="pfName" placeholder="Your name"></div>
+              <div class="pfield"><label>Email / Username</label><input type="text" id="pfEmail" readonly></div>
+              <div class="pfield"><label>Specialty</label><input type="text" id="pfSpec" placeholder="e.g. Gastroenterology"></div>
+              <div class="pfield"><label>Institution</label><input type="text" id="pfInst" placeholder="e.g. King Abdulaziz University Hospital"></div>
+              <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main><!-- /main -->
+  </div>
+</div>
+
+<!-- Name Prompt Modal -->
+<div class="name-modal-overlay" id="nameModal">
+  <div class="name-modal">
+    <h3>Enter your full name</h3>
+    <p>Your full name is required to appear on the certificate. Please enter it below to continue.</p>
+    <input type="text" id="nameModalInput" placeholder="e.g. Dr. Sarah Al-Rashidi" maxlength="80"
+      onkeydown="if(event.key==='Enter')confirmNameAndPrint()">
+    <div class="name-modal-actions">
+      <button class="nm-cancel" onclick="closeNameModal()">Cancel</button>
+      <button class="nm-confirm" onclick="confirmNameAndPrint()">Continue to Certificate</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════
+   DATA
+════════════════════════════════════ */
+const MODULES = [
+  {
+    id:0, num:'Module 01', tag:'Esophagus',
+    title:'Esophageal Disorders',
+    desc:'GERD, Barrett\'s esophagus, esophageal motility disorders, eosinophilic esophagitis and dysphagia management.',
+    chapters:[
+      {
+        title:'Gastroesophageal Reflux Disease (GERD)',
+        content:`
+          <h3>Definition & Pathophysiology</h3>
+          <p>GERD is defined by troublesome symptoms or mucosal damage caused by the reflux of gastric contents into the esophagus. The primary mechanism involves transient lower esophageal sphincter (LES) relaxations, reduced LES tone, or impaired esophageal clearance.</p>
+          <div class="highlight-box"><p><strong>Key Point:</strong> Vonoprazan (Vonacab™) acts as a potassium-competitive acid blocker (P-CAB), providing faster and more sustained acid suppression than conventional PPIs, making it a superior option for erosive esophagitis healing.</p></div>
+          <h3>Clinical Presentation</h3>
+          <ul><li>Typical symptoms: heartburn, regurgitation, waterbrash</li><li>Atypical: chronic cough, laryngitis, non-cardiac chest pain, dental erosions</li><li>Alarm features: dysphagia, odynophagia, weight loss — require urgent endoscopy</li></ul>
+          <h3>Diagnosis</h3>
+          <p>Empirical PPI trial for classic symptoms. 24-hour pH-impedance monitoring is the gold standard. Endoscopy is indicated for alarm features, atypical symptoms, or treatment failure.</p>
+          <h3>Management</h3>
+          <ul><li>Lifestyle: head-of-bed elevation, weight loss, avoid triggers</li><li>Medical: Vonacab™ (vonoprazan) 20mg once daily — superior healing of erosive esophagitis</li><li>Step-up as needed; surgical fundoplication for refractory cases</li></ul>`
+      },
+      {
+        title:"Barrett's Esophagus",
+        content:`
+          <h3>Definition</h3>
+          <p>Barrett's esophagus is the metaplastic replacement of the normal stratified squamous epithelium by columnar epithelium with intestinal characteristics (goblet cells), a consequence of chronic GERD.</p>
+          <h3>Risk Factors</h3>
+          <ul><li>Male sex, age >50, obesity (especially central), long-standing GERD (>5 years), tobacco use</li><li>White ethnicity, family history of Barrett's or esophageal adenocarcinoma</li></ul>
+          <h3>Surveillance Strategy</h3>
+          <p>No dysplasia: endoscopy every 3–5 years. Low-grade dysplasia: endoscopic eradication therapy (EET) preferred or intensive surveillance every 6–12 months. High-grade dysplasia: EET (radiofrequency ablation ± endoscopic mucosal resection).</p>
+          <div class="highlight-box"><p><strong>Maintenance Therapy:</strong> Long-term acid suppression with vonoprazan is recommended to prevent metaplasia progression. P-CABs offer more consistent acid control than PPIs.</p></div>`
+      },
+      {
+        title:'Esophageal Motility Disorders',
+        content:`
+          <h3>Classification (Chicago Classification v4.0)</h3>
+          <ul><li>Achalasia (Types I, II, III) — loss of peristalsis + impaired LES relaxation</li><li>Esophagogastric junction outflow obstruction (EGJOO)</li><li>Major motility disorders: diffuse esophageal spasm, hypercontractile esophagus</li><li>Minor motility disorders: ineffective esophageal motility (IEM), fragmented peristalsis</li></ul>
+          <h3>Diagnosis</h3>
+          <p>High-resolution esophageal manometry (HRM) is the diagnostic gold standard. Timed barium swallow and upper endoscopy are complementary tools.</p>
+          <h3>Treatment of Achalasia</h3>
+          <ul><li>Pneumatic dilation: effective in 85% at 1 year</li><li>Laparoscopic Heller myotomy: durable long-term results</li><li>Per-oral endoscopic myotomy (POEM): preferred for Type III achalasia</li><li>Botulinum toxin injection: reserved for poor surgical candidates</li></ul>`
+      }
+    ],
+    questions:[
+      {q:'Which medication class does vonoprazan (Vonacab™) belong to?',opts:['Proton Pump Inhibitor (PPI)','H2-Receptor Antagonist','Potassium-Competitive Acid Blocker (P-CAB)','Antacid'],ans:2},
+      {q:'What is the gold standard diagnostic test for GERD?',opts:['Upper endoscopy','Barium swallow','24-hour pH-impedance monitoring','Esophageal manometry'],ans:2},
+      {q:"Barrett's esophagus with high-grade dysplasia is best managed by:",opts:['Intensive surveillance every 3 months','Endoscopic eradication therapy (EET)','Surgical esophagectomy immediately','Doubling PPI dose'],ans:1},
+      {q:'Type II achalasia is best defined by:',opts:['Premature contractions and rapid contraction velocity','Absent peristalsis with 100% failed swallows','100% failed peristalsis with pan-esophageal pressurization','Normal peristalsis with elevated LES pressure'],ans:2},
+      {q:'Which intervention is preferred for Type III (spastic) achalasia?',opts:['Pneumatic dilation','Laparoscopic Heller myotomy','Per-oral endoscopic myotomy (POEM)','Botulinum toxin injection'],ans:2}
+    ]
+  },
+  {
+    id:1, num:'Module 02', tag:'Gastric',
+    title:'Acid Diseases of the Stomach',
+    desc:'Peptic ulcer disease, H. pylori eradication protocols, NSAID gastropathy, stress ulcers and Zollinger-Ellison syndrome.',
+    chapters:[
+      {
+        title:'Peptic Ulcer Disease (PUD)',
+        content:`
+          <h3>Epidemiology & Etiology</h3>
+          <p>Peptic ulcer disease (PUD) affects ~10% of the global population. The two major causes are H. pylori infection (70–90% of duodenal ulcers, 70% of gastric ulcers) and NSAID use (15–20% of chronic NSAID users develop ulcers).</p>
+          <h3>Pathophysiology</h3>
+          <p>An imbalance between aggressive factors (acid, pepsin, H. pylori, NSAIDs) and defensive factors (mucus, bicarbonate, prostaglandins, mucosal blood flow) leads to mucosal breakdown.</p>
+          <div class="highlight-box"><p><strong>Vonacab™ in PUD:</strong> Vonoprazan-based triple therapy achieves H. pylori eradication rates >90% — significantly superior to traditional PPI-based regimens, particularly in clarithromycin-resistant strains.</p></div>
+          <h3>Diagnosis</h3>
+          <ul><li>Upper endoscopy: gold standard — allows biopsy and H. pylori testing</li><li>Urea breath test (UBT): best non-invasive test for active infection and post-treatment confirmation</li><li>Stool antigen test: convenient alternative to UBT</li></ul>`
+      },
+      {
+        title:'H. pylori Eradication & Vonacab™',
+        content:`
+          <h3>Why Eradication Matters</h3>
+          <p>H. pylori eradication heals ulcers without long-term acid suppression, prevents recurrence (relapse from 80% to <5%), and reduces gastric cancer risk by 35–40%.</p>
+          <h3>Vonoprazan-Based Regimens</h3>
+          <ul><li><strong>Dual therapy:</strong> Vonoprazan 20mg BD + Amoxicillin 750mg–1g TDS × 14 days — up to 84% eradication</li><li><strong>Triple therapy:</strong> Vonoprazan 20mg BD + Amoxicillin 1g BD + Clarithromycin 500mg BD × 14 days</li></ul>
+          <div class="highlight-box"><p><strong>Advantage:</strong> Unlike PPIs, vonoprazan maintains intragastric pH >6 regardless of CYP2C19 genotype, improving antibiotic efficacy and eradication rates consistently.</p></div>
+          <h3>Confirming Eradication</h3>
+          <p>Test at least 4 weeks after completing therapy. UBT or stool antigen test (not serology). PPIs and vonoprazan should be discontinued 2 weeks before testing.</p>`
+      }
+    ],
+    questions:[
+      {q:'What is the most common cause of duodenal ulcer disease?',opts:['NSAIDs','H. pylori infection','Stress','Zollinger-Ellison syndrome'],ans:1},
+      {q:'What is the best non-invasive test to confirm H. pylori eradication after treatment?',opts:['Serology (IgG antibody)','Stool antigen test or urea breath test','Biopsy urease test','H. pylori culture'],ans:1},
+      {q:'What is the key pharmacological advantage of vonoprazan over PPIs in H. pylori eradication?',opts:['It directly kills H. pylori','It maintains intragastric pH >6 regardless of CYP2C19 genotype','It is cheaper','It works only in the stomach'],ans:1},
+      {q:'When should eradication testing be performed after completing therapy?',opts:['1 week after','2 weeks after','At least 4 weeks after','Only if symptoms persist'],ans:2},
+      {q:'Which ulcer type is most commonly caused by NSAID use?',opts:['Duodenal ulcer','Gastric ulcer','Both equally','Esophageal ulcer'],ans:1}
+    ]
+  },
+  {
+    id:2, num:'Module 03', tag:'Pregnancy',
+    title:'GI Diseases in Pregnancy',
+    desc:'Nausea and vomiting of pregnancy, hyperemesis gravidarum, IBD in pregnancy, GERD and intrahepatic cholestasis.',
+    chapters:[
+      {
+        title:'Nausea, Vomiting & Hyperemesis Gravidarum',
+        content:`
+          <h3>Nausea & Vomiting of Pregnancy (NVP)</h3>
+          <p>Affects up to 80% of pregnant women, typically beginning by week 4–6 and resolving by week 12–16. While uncomfortable, NVP is associated with better fetal outcomes.</p>
+          <h3>Hyperemesis Gravidarum (HG)</h3>
+          <p>Severe, persistent NVP causing dehydration, electrolyte imbalance, nutritional deficiency and >5% weight loss. Affects 0.3–2% of pregnancies.</p>
+          <h3>Management of NVP</h3>
+          <ul><li>Ginger supplementation, small frequent meals, avoid triggers</li><li>Vitamin B6 (pyridoxine) 10–25mg TDS ± doxylamine (Diclegis) — first-line pharmacotherapy</li><li>Antihistamines (promethazine, dimenhydrinate) for moderate NVP</li><li>Ondansetron: effective but use with caution (cardiac risk in high doses)</li></ul>
+          <h3>Management of HG</h3>
+          <p>IV fluid resuscitation (normal saline + thiamine supplementation to prevent Wernicke's encephalopathy), IV anti-emetics, nutritional support (enteral feeding if severe).</p>`
+      },
+      {
+        title:'GERD & IBD in Pregnancy',
+        content:`
+          <h3>GERD in Pregnancy</h3>
+          <p>Affects approximately 50% of pregnant women due to progesterone-mediated LES relaxation and increased intra-abdominal pressure from the growing uterus.</p>
+          <h3>Management of GERD in Pregnancy</h3>
+          <ul><li>Lifestyle: head-of-bed elevation, small meals, avoid late eating</li><li>Calcium carbonate antacids: safe, first-line</li><li>Alginate preparations: safe and effective</li><li>H2-blockers (ranitidine, famotidine): Category B — use if antacids fail</li><li>PPIs (omeprazole, pantoprazole): Category B — use when H2-blockers inadequate</li></ul>
+          <div class="highlight-box"><p><strong>Note:</strong> Vonoprazan (Vonacab™) safety in pregnancy has not been fully established. PPIs remain the acid suppression class of choice in pregnancy.</p></div>
+          <h3>IBD in Pregnancy</h3>
+          <p>Active IBD at conception is a major risk factor for adverse pregnancy outcomes including preterm birth, low birth weight and miscarriage. The goal is to achieve and maintain remission before conception and throughout pregnancy.</p>
+          <ul><li>5-ASA (mesalazine): safe throughout pregnancy</li><li>Corticosteroids: used for flares; avoid prolonged use</li><li>Anti-TNF biologics: continue through second trimester; discuss third-trimester risks</li></ul>`
+      }
+    ],
+    questions:[
+      {q:'What percentage of pregnant women experience nausea and vomiting of pregnancy (NVP)?',opts:['20–30%','50%','Up to 80%','Nearly 100%'],ans:2},
+      {q:'What vitamin supplementation is critical when treating hyperemesis gravidarum to prevent Wernicke\'s encephalopathy?',opts:['Vitamin C','Vitamin D','Thiamine (Vitamin B1)','Folate'],ans:2},
+      {q:'Which medication is considered first-line pharmacotherapy for NVP?',opts:['Ondansetron','Metoclopramide','Doxylamine + Pyridoxine (Diclegis)','Promethazine'],ans:2},
+      {q:'The major cause of GERD in pregnancy is:',opts:['Increased gastric acid production','Progesterone-mediated LES relaxation and increased abdominal pressure','H. pylori infection','Poor diet'],ans:1},
+      {q:'Which IBD treatment is generally safe for use throughout pregnancy?',opts:['Methotrexate','Thalidomide','5-ASA (mesalazine)','Cyclosporine'],ans:2}
+    ]
+  },
+  {
+    id:3, num:'Module 04', tag:'Functional GI',
+    title:'Diarrhea and Constipation',
+    desc:'Acute vs chronic diarrhea workup, C. difficile infection, IBS-C, IBS-D, opioid-induced constipation and functional disorders.',
+    chapters:[
+      {
+        title:'Acute & Chronic Diarrhea',
+        content:`
+          <h3>Definitions</h3>
+          <p>Diarrhea is defined as ≥3 loose/watery stools per day. Acute diarrhea lasts &lt;14 days, persistent 14–30 days, and chronic >30 days.</p>
+          <h3>Acute Infectious Diarrhea</h3>
+          <ul><li>Most cases are self-limiting; oral rehydration is the cornerstone</li><li>Bloody diarrhea with fever: consider Shiga toxin-producing E. coli, Salmonella, Shigella, Campylobacter</li><li>Antibiotics indicated: severe Shigella, Campylobacter, cholera, traveler's diarrhea (rifaximin)</li></ul>
+          <h3>C. difficile Infection (CDI)</h3>
+          <ul><li>Mild-moderate: oral vancomycin 125mg QDS × 10 days or fidaxomicin</li><li>Severe: oral vancomycin 500mg QDS; add IV metronidazole if ileus</li><li>Recurrent CDI (≥3 episodes): fecal microbiota transplant (FMT) — 90% cure rate</li><li>Bezlotoxumab (monoclonal antibody against toxin B): reduces recurrence risk</li></ul>
+          <h3>Chronic Diarrhea Evaluation</h3>
+          <p>Categorize as: watery (secretory vs osmotic), inflammatory, or fatty (malabsorptive). Workup: colonoscopy with biopsies (microscopic colitis), celiac serology, stool studies, imaging.</p>`
+      },
+      {
+        title:'Constipation & IBS',
+        content:`
+          <h3>Functional Constipation (Rome IV)</h3>
+          <p>&lt;3 spontaneous bowel movements/week plus ≥2 of: straining, lumpy/hard stools, incomplete evacuation, sensation of blockage, manual maneuvers, in ≥25% of defecations.</p>
+          <h3>Treatment Ladder</h3>
+          <ul><li><strong>Step 1:</strong> Dietary fiber (25–38g/day), hydration (1.5–2L/day), physical activity</li><li><strong>Step 2:</strong> Osmotic laxatives (PEG/macrogol) — mainstay of medical therapy</li><li><strong>Step 3:</strong> Secretagogues — linaclotide, plecanatide, lubiprostone (for IBS-C)</li><li><strong>Step 4:</strong> Prucalopride (5-HT4 agonist prokinetic)</li></ul>
+          <div class="highlight-box"><p><strong>Opioid-Induced Constipation (OIC):</strong> Peripheral mu-opioid receptor antagonists (naloxegol, methylnaltrexone) are specifically indicated when standard laxatives fail. Do not use central opioid antagonists as they will reverse analgesia.</p></div>
+          <h3>IBS Subtypes</h3>
+          <ul><li>IBS-C: low-FODMAP diet, linaclotide, plecanatide</li><li>IBS-D: low-FODMAP diet, rifaximin (non-absorbable antibiotic), loperamide, alosetron (women)</li><li>IBS-M: mixed approach based on predominant symptoms</li></ul>`
+      }
+    ],
+    questions:[
+      {q:'What is the first-line treatment for mild-moderate C. difficile infection?',opts:['IV metronidazole','Oral metronidazole','Oral vancomycin or fidaxomicin','Fecal microbiota transplant (FMT)'],ans:2},
+      {q:'Which drug class is specifically indicated for opioid-induced constipation when laxatives fail?',opts:['Central opioid antagonists (naloxone)','Peripheral mu-opioid receptor antagonists (naloxegol)','Osmotic laxatives','Prokinetics'],ans:1},
+      {q:'The Rome IV criteria for functional constipation require symptoms for at least:',opts:['1 month','3 months with symptom onset 6 months prior','6 consecutive months','1 week per month'],ans:1},
+      {q:'What is the preferred treatment for recurrent C. difficile infection (≥3 episodes)?',opts:['Prolonged oral vancomycin','Bezlotoxumab injection','Fecal microbiota transplant (FMT)','IV metronidazole'],ans:2},
+      {q:'Which antibiotic is used as first-line treatment for traveler\'s diarrhea?',opts:['Ciprofloxacin','Metronidazole','Rifaximin','Amoxicillin'],ans:2}
+    ]
+  },
+  {
+    id:4, num:'Module 05', tag:'Motility',
+    title:'Gastrointestinal Motility',
+    desc:'Gastroparesis, SIBO, chronic intestinal pseudo-obstruction, pelvic floor dysfunction and prokinetic therapy.',
+    chapters:[
+      {
+        title:'Gastroparesis',
+        content:`
+          <h3>Definition & Etiology</h3>
+          <p>Gastroparesis is delayed gastric emptying without mechanical obstruction, confirmed by gastric emptying scintigraphy (GES). Major causes: diabetic (29%), idiopathic (36%), post-surgical (13%), other (22%).</p>
+          <h3>Diagnosis</h3>
+          <p>4-hour solid-phase gastric emptying scintigraphy is the diagnostic gold standard. Wireless motility capsule (WMC) is an alternative. Upper endoscopy is always performed first to exclude mechanical causes.</p>
+          <h3>Dietary Management</h3>
+          <ul><li>Small, frequent meals (6 per day)</li><li>Low fat (&lt;40g/day), low fiber (avoid raw vegetables, fibrous fruits)</li><li>Liquid/blended meals if severe</li><li>Avoid carbonated beverages and alcohol</li></ul>
+          <h3>Pharmacological Management</h3>
+          <ul><li>Metoclopramide: only FDA-approved prokinetic; limit to &lt;12 weeks due to tardive dyskinesia risk</li><li>Domperidone: preferred in many countries, less CNS side effects</li><li>Erythromycin (motilin agonist): tachyphylaxis limits long-term use</li></ul>
+          <div class="highlight-box"><p><strong>Emerging Therapy:</strong> G-POEM (gastric per-oral endoscopic pyloromyotomy) — endoscopic division of the pylorus — is a minimally invasive option for refractory gastroparesis with significant symptom improvement.</p></div>`
+      },
+      {
+        title:'SIBO & Intestinal Pseudo-obstruction',
+        content:`
+          <h3>Small Intestinal Bacterial Overgrowth (SIBO)</h3>
+          <p>Defined as >10³ CFU/mL of bacteria in the proximal small bowel (upper: >10³, distal: >10⁵). Causes: dysmotility (diabetes, scleroderma), structural abnormalities (strictures, diverticula), hypochlorhydria.</p>
+          <h3>Clinical Features & Diagnosis</h3>
+          <ul><li>Bloating, abdominal pain, diarrhea, malabsorption</li><li>Glucose hydrogen breath test: sensitive and specific; lactulose breath test less preferred</li><li>Small bowel aspirate culture: gold standard but invasive</li></ul>
+          <h3>Treatment</h3>
+          <ul><li>Rifaximin 550mg TDS × 14 days: preferred — minimal systemic absorption, broad-spectrum, low resistance rates</li><li>Repeat courses may be needed; address underlying cause</li></ul>
+          <h3>Acute Colonic Pseudo-obstruction (Ogilvie Syndrome)</h3>
+          <p>Massive colonic dilation (>9cm cecum) without mechanical obstruction; ICU patients at risk. Management:</p>
+          <ul><li>Conservative: IV fluids, bowel rest, ambulation, offending drug cessation</li><li>Neostigmine 2mg IV: highly effective (88%); requires cardiac monitoring</li><li>Colonoscopic decompression: if neostigmine fails or contraindicated</li><li>Cecostomy/surgery: for ischemic bowel or perforation</li></ul>`
+      }
+    ],
+    questions:[
+      {q:'What is the gold standard diagnostic test for gastroparesis?',opts:['CT abdomen','Upper GI endoscopy','4-hour solid-phase gastric emptying scintigraphy','Wireless motility capsule'],ans:2},
+      {q:'What is the major long-term risk associated with metoclopramide use?',opts:['Renal failure','Tardive dyskinesia','Liver toxicity','QT prolongation'],ans:1},
+      {q:'What is the preferred antibiotic for SIBO?',opts:['Ciprofloxacin','Amoxicillin','Metronidazole','Rifaximin'],ans:3},
+      {q:'What is the first-line pharmacological treatment for acute colonic pseudo-obstruction?',opts:['Oral neostigmine','IV neostigmine','Colonoscopic decompression','Laxatives'],ans:1},
+      {q:'What dietary modification is most important in gastroparesis management?',opts:['High-fat, high-fiber meals','High-protein, high-fat meals','Small, frequent low-fat, low-fiber meals','Liquid-only diet in all cases'],ans:2}
+    ]
+  },
+  {
+    id:5, num:'Module 06', tag:'Emergency GI',
+    title:'Gastrointestinal Bleeding',
+    desc:'Upper and lower GI bleeding assessment, variceal hemorrhage, endoscopic hemostasis and risk stratification tools.',
+    chapters:[
+      {
+        title:'Upper GI Bleeding (UGIB)',
+        content:`
+          <h3>Etiology & Epidemiology</h3>
+          <p>UGIB accounts for ~150 hospitalizations per 100,000 per year. Major causes: peptic ulcer disease (40–50%), variceal hemorrhage (10–20%), Mallory-Weiss tears (5–10%), erosive gastropathy (10%).</p>
+          <h3>Initial Resuscitation</h3>
+          <ul><li>Two large-bore IV cannulas; crossmatch blood</li><li>Crystalloid resuscitation; restrictive transfusion strategy (Hb threshold &lt;7g/dL — reduces mortality vs liberal transfusion)</li><li>Keep Hb 70–90 g/L in active bleeding</li></ul>
+          <h3>Risk Stratification</h3>
+          <ul><li><strong>Rockall Score</strong> (pre-endoscopy): age, shock, comorbidities — predicts re-bleeding and mortality</li><li><strong>AIMS65</strong>: albumin, INR, mental status, systolic BP, age — predicts in-hospital mortality</li><li>Glasgow-Blatchford Score (GBS): guides outpatient vs inpatient management</li></ul>
+          <div class="highlight-box"><p><strong>Pre-endoscopy PPIs:</strong> High-dose IV PPI infusion reduces active bleeding stigmata at endoscopy and may reduce need for intervention. Vonoprazan IV formulation is under clinical investigation.</p></div>
+          <h3>Endoscopic Management</h3>
+          <p>Upper endoscopy within 24 hours for stable patients; within 12 hours for high-risk features. Forrest Ia/Ib/IIa ulcers require endoscopic hemostasis (injection + mechanical or thermal therapy).</p>`
+      },
+      {
+        title:'Lower GI Bleeding & Variceal Hemorrhage',
+        content:`
+          <h3>Lower GI Bleeding (LGIB)</h3>
+          <p>Causes: diverticulosis (40%), anorectal disease (hemorrhoids, anal fissure), ischemic colitis (10%), colorectal neoplasia, IBD, angiodysplasia.</p>
+          <h3>Management Algorithm</h3>
+          <ul><li>80% self-limiting; resuscitation and monitoring in all</li><li>CT angiography: detects active bleeding >0.3–0.5 mL/min; guides embolization</li><li>Colonoscopy preferred over angiography when bleeding is slower</li><li>Mesenteric angiography + embolization: 88% technical success; 25–40% re-bleeding rate</li></ul>
+          <h3>Variceal Hemorrhage</h3>
+          <p>Mortality 15–25% per episode in decompensated cirrhosis. Requires combined pharmacological + endoscopic approach:</p>
+          <ul><li>Terlipressin 2mg IV QDS or somatostatin/octreotide: start at admission, continue 5 days</li><li>Endoscopic band ligation (EBL): preferred over sclerotherapy for esophageal varices</li><li>Antibiotics (ceftriaxone 1g/day × 7 days): reduce infectious complications and mortality</li><li>TIPSS: for refractory or high-risk variceal bleeding (HVPG >20mmHg)</li></ul>
+          <div class="highlight-box"><p><strong>Primary Prophylaxis:</strong> Non-selective beta-blockers (propranolol, carvedilol) or EBL for large varices or varices with red signs.</p></div>`
+      }
+    ],
+    questions:[
+      {q:'What is the recommended hemoglobin transfusion threshold in acute upper GI bleeding?',opts:['Hb <10 g/dL','Hb <9 g/dL','Hb <7 g/dL','Hb <5 g/dL'],ans:2},
+      {q:'Which scoring system guides the triage decision between outpatient management and hospital admission in UGIB?',opts:['Rockall Score','AIMS65','Glasgow-Blatchford Score (GBS)','Child-Pugh Score'],ans:2},
+      {q:'What is the most common cause of lower GI bleeding?',opts:['Colorectal cancer','Angiodysplasia','Diverticulosis','Ischemic colitis'],ans:2},
+      {q:'Which vasoactive drug is used alongside endoscopic band ligation in acute variceal hemorrhage?',opts:['Adrenaline','Terlipressin or octreotide','Vasopressin','Noradrenaline'],ans:1},
+      {q:'What prophylactic antibiotic is given routinely in acute variceal bleeding?',opts:['Amoxicillin','Metronidazole','Ceftriaxone','Ciprofloxacin'],ans:2}
+    ]
+  },
+  {
+    id:6, num:'Module 07', tag:'Nutrition',
+    title:'Nutrition, Obesity and Eating Disorders',
+    desc:'Nutritional assessment, malnutrition in GI disease, obesity management, bariatric procedures and GI complications of eating disorders.',
+    chapters:[
+      {
+        title:'Nutrition & Malnutrition in GI Disease',
+        content:`
+          <h3>Nutritional Assessment Tools</h3>
+          <ul><li><strong>MUST</strong> (Malnutrition Universal Screening Tool): BMI + weight loss + acute disease — most used in hospital</li><li><strong>SGA</strong> (Subjective Global Assessment): history + physical — validated in GI surgery patients</li><li><strong>NRS-2002</strong>: preferred by ESPEN for hospitalized patients</li></ul>
+          <h3>Enteral vs Parenteral Nutrition</h3>
+          <p>Enteral nutrition (EN) is always preferred when the gut is functional: preserves gut barrier, prevents bacterial translocation, maintains immune competence, cheaper. Total parenteral nutrition (TPN) is reserved for gut failure.</p>
+          <h3>Specific GI Conditions</h3>
+          <ul><li><strong>IBD:</strong> elemental or semi-elemental formulas during flares; 30–35 kcal/kg/day; watch for iron, B12, folate, zinc deficiency</li><li><strong>Short Bowel Syndrome:</strong> TPN dependency common; teduglutide (GLP-2 analogue) stimulates intestinal adaptation and reduces TPN requirements by 20–30%</li><li><strong>Cirrhosis:</strong> high protein (1.2–1.5g/kg/day); nocturnal snack prevents overnight catabolism; BCAA supplementation in hepatic encephalopathy</li></ul>`
+      },
+      {
+        title:'Obesity, Bariatric Procedures & Eating Disorders',
+        content:`
+          <h3>Obesity & the GI Tract</h3>
+          <p>Obesity (BMI ≥30) is associated with GERD, NAFLD/NASH (now reclassified as MASLD), cholelithiasis and colorectal cancer. GI symptoms improve significantly with weight loss.</p>
+          <h3>Pharmacological Management</h3>
+          <ul><li>Semaglutide (Ozempic/Wegovy): GLP-1 RA — 15–17% weight loss; improves MASLD histology</li><li>Tirzepatide (Mounjaro): dual GLP-1/GIP agonist — 20–22% weight loss; most effective approved agent</li><li>Orlistat: pancreatic lipase inhibitor; modest effect (5–10% weight loss); GI side effects common</li></ul>
+          <h3>Bariatric Procedures</h3>
+          <ul><li>Sleeve gastrectomy (SG): 50–60% EWL; risk of GERD worsening</li><li>Roux-en-Y gastric bypass (RYGB): 60–80% EWL; resolves T2DM in 80%; risk of dumping syndrome, marginal ulcers</li><li>Long-term: monitor iron, B12, folate, calcium, vitamin D, zinc</li></ul>
+          <div class="highlight-box"><p><strong>Eating Disorders:</strong> Anorexia nervosa → gastroparesis, constipation, SMA syndrome. Bulimia nervosa → Mallory-Weiss tears, Russell's sign, parotid hypertrophy, esophagitis. Multidisciplinary team (gastroenterology, psychiatry, dietetics) is essential.</p></div>`
+      }
+    ],
+    questions:[
+      {q:'Which nutritional assessment tool is recommended by ESPEN for hospitalized patients?',opts:['MUST','SGA','NRS-2002','BMI alone'],ans:2},
+      {q:'What is the main mechanism of action of teduglutide in short bowel syndrome?',opts:['Reduces intestinal secretions','GLP-2 analogue that stimulates intestinal adaptation and mucosal growth','Inhibits pancreatic enzymes','Increases gastric emptying'],ans:1},
+      {q:'Which bariatric procedure is associated with the highest risk of dumping syndrome?',opts:['Sleeve gastrectomy','Adjustable gastric banding','Roux-en-Y gastric bypass','Biliopancreatic diversion'],ans:2},
+      {q:'Which GLP-1 based drug has shown the greatest percentage weight loss in trials to date?',opts:['Orlistat','Liraglutide','Semaglutide','Tirzepatide (dual GLP-1/GIP agonist)'],ans:3},
+      {q:'What GI complication is specifically associated with Roux-en-Y gastric bypass?',opts:['Stricture at gastroesophageal junction','Marginal ulcer at the gastrojejunal anastomosis','Esophageal perforation','Small bowel volvulus'],ans:1}
+    ]
+  }
+];
+
+/* ════════════════════════════════════
+   STATE
+════════════════════════════════════ */
+let currentModIndex   = 0;
+let currentChapter    = 0;
+let currentQMod       = 0;
+let currentQIndex     = 0;
+let selectedOption    = null;
+let answered          = false;
+// Reading tracking: which chapters have been opened per module
+const readProgress = MODULES.map(m => new Array(m.chapters.length).fill(false));
+// Quiz tracking: best score per module (null = not attempted, else numeric 0..n)
+const qBestScore   = new Array(MODULES.length).fill(null);
+let   sessionScore = 0;
+
+/* ════════════════════════════════════
+   INIT
+════════════════════════════════════ */
+(function init(){
+  const user = sessionStorage.getItem('portalUser') || 'User';
+  const initials = user.split(/[\s.@_-]+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2) || user[0].toUpperCase();
+  document.getElementById('headerUser').textContent   = user;
+  document.getElementById('headerAvatar').textContent = initials;
+  document.getElementById('profileAvatarBig').textContent = initials;
+  document.getElementById('profileName').textContent  = user;
+  document.getElementById('pfEmail').value            = user;
+  buildModuleGrid();
+  buildQModuleList();
+  buildCertSteps();
+})();
+
+/* ════════════════════════════════════
+   VIEW SWITCHING
+════════════════════════════════════ */
+function showView(name, btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const el = document.getElementById('view-'+name);
+  if(el) el.classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.getElementById('mainArea').scrollTop = 0;
+}
+
+/* ════════════════════════════════════
+   MODULES GRID
+════════════════════════════════════ */
+function buildModuleGrid(){
+  const grid = document.getElementById('moduleGrid');
+  grid.innerHTML = MODULES.map((m,i)=>{
+    const totalChaps = m.chapters.length;
+    const readChaps  = readProgress[i].filter(Boolean).length;
+    const readPct    = Math.round((readChaps/totalChaps)*100);
+    const qPct       = qBestScore[i]!==null ? Math.round((qBestScore[i]/m.questions.length)*100) : null;
+    return `
+    <div class="mod-card">
+      <div class="mod-card-top"></div>
+      <div class="mod-card-body">
+        <div class="mod-num">${m.num}</div>
+        <div class="mod-title">${m.title}</div>
+        <div class="mod-desc">${m.desc}</div>
+        <div class="mod-progress">
+          <div class="mod-prog-row">
+            <span class="mod-prog-label">Reading</span>
+            <div class="mod-prog-bar"><div class="mod-prog-fill read" style="width:${readPct}%"></div></div>
+            <span class="mod-prog-pct">${readPct}%</span>
+          </div>
+          <div class="mod-prog-row">
+            <span class="mod-prog-label">Questions</span>
+            <div class="mod-prog-bar"><div class="mod-prog-fill quiz" style="width:${qPct!==null?qPct:0}%"></div></div>
+            <span class="mod-prog-pct">${qPct!==null?qPct+'%':'—'}</span>
+          </div>
+        </div>
+        <div class="mod-card-footer">
+          <span class="mod-tag">${m.tag}</span>
+          <button class="btn-read" onclick="openTOC(${i})">Read</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════
+   TABLE OF CONTENTS
+════════════════════════════════════ */
+function openTOC(modIdx){
+  currentModIndex = modIdx;
+  const m = MODULES[modIdx];
+  document.getElementById('tocCard').innerHTML =`
+    <div class="toc-head">
+      <div class="mod-label">${m.num}</div>
+      <h2>${m.title}</h2>
+    </div>
+    <div class="toc-body">
+      ${m.chapters.map((ch,i)=>{
+        const isRead = readProgress[modIdx][i];
+        return `
+        <div class="toc-item" onclick="openChapter(${modIdx},${i})">
+          <div class="toc-index" style="${isRead?'background:#dcfce7;color:#16a34a;':''}">&#${isRead?10003:i+49};</div>
+          <div class="toc-text"><h4>${ch.title}</h4><p>${isRead?'✓ Read':''}</p></div>
+          ${isRead?'<span class="toc-read-badge">✓ Read</span>':''}
+          <div class="toc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  showView('toc', null);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-modules').classList.add('active');
+}
+
+function backToToc(){ openTOC(currentModIndex); }
+
+/* ════════════════════════════════════
+   CHAPTER READING
+════════════════════════════════════ */
+function openChapter(modIdx, chapIdx){
+  currentModIndex = modIdx;
+  currentChapter  = chapIdx;
+  // Mark this chapter as read
+  readProgress[modIdx][chapIdx] = true;
+  buildModuleGrid(); // refresh cards with updated %
+  renderChapter();
+  showView('reading', null);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-modules').classList.add('active');
+}
+
+function renderChapter(){
+  const m  = MODULES[currentModIndex];
+  const ch = m.chapters[currentChapter];
+  document.getElementById('readChapterLabel').textContent = `${currentChapter+1} of ${m.chapters.length}`;
+  document.getElementById('readDoc').innerHTML =`
+    <div class="read-doc-head">
+      <div style="font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:6px">${m.num} · Chapter ${currentChapter+1}</div>
+      <h1>${ch.title}</h1>
+      <p>${m.title}</p>
+    </div>
+    <div class="read-doc-body">${ch.content}</div>`;
+  document.getElementById('btnPrevChapter').style.visibility = currentChapter===0?'hidden':'visible';
+  document.getElementById('btnNextChapter').textContent = currentChapter===m.chapters.length-1?'Finish':'Next ›';
+}
+
+function navigateChapter(dir){
+  const m = MODULES[currentModIndex];
+  const next = currentChapter + dir;
+  if(next < 0){ backToToc(); return; }
+  if(next >= m.chapters.length){ backToToc(); return; }
+  currentChapter = next;
+  renderChapter();
+  document.getElementById('mainArea').scrollTop = 0;
+}
+
+/* ════════════════════════════════════
+   QUESTIONS
+════════════════════════════════════ */
+function buildQModuleList(){
+  const list = document.getElementById('qModuleList');
+  list.innerHTML = MODULES.map((m,i)=>{
+    const tried = qBestScore[i] !== null;
+    const pct   = tried ? Math.round((qBestScore[i]/m.questions.length)*100) : 0;
+    const scoreStr = tried ? pct+'% ('+qBestScore[i]+'/'+m.questions.length+' correct)' : 'Not started';
+    return `
+    <div class="q-row">
+      <div class="q-num">${i+1}</div>
+      <div class="q-info">
+        <h4>${m.title}</h4>
+        <div class="q-progress-wrap">
+          <div class="q-progress-bar"><div class="q-progress-fill" id="qfill-${i}" style="width:${pct}%"></div></div>
+          <span class="q-progress-pct" id="qpct-${i}">${scoreStr}</span>
+        </div>
+      </div>
+      <button class="btn-start ${tried&&pct>=60?'done':''}" onclick="startQuiz(${i})">${tried?'Retry':'Start'}</button>
+    </div>`;
+  }).join('');
+}
+
+function startQuiz(modIdx){
+  currentQMod   = modIdx;
+  currentQIndex = 0;
+  selectedOption= null;
+  answered      = false;
+  sessionScore  = 0;
+  renderQuestion();
+  showView('quiz', null);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-questions').classList.add('active');
+}
+
+function renderQuestion(){
+  const m  = MODULES[currentQMod];
+  const q  = m.questions[currentQIndex];
+  const total = m.questions.length;
+  const pct = Math.round((currentQIndex/total)*100);
+  document.getElementById('quizProgressFill').style.width = pct+'%';
+  document.getElementById('quizProgressLabel').textContent = `${currentQIndex+1} / ${total}`;
+  document.getElementById('quizModLabel').textContent = m.num + ' · ' + m.title;
+  document.getElementById('quizQuestion').textContent = q.q;
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('btnSubmit').disabled = true;
+  document.getElementById('btnSubmit').textContent = 'Submit';
+  selectedOption = null; answered = false;
+  const letters = ['A','B','C','D','E'];
+  document.getElementById('quizOptions').innerHTML = q.opts.map((opt,i)=>`
+    <button class="option-btn" id="opt-${i}" onclick="selectOption(${i})">
+      <span class="opt-letter">${letters[i]}</span>
+      <span class="opt-text">${opt}</span>
+    </button>`).join('');
+}
+
+function selectOption(i){
+  if(answered) return;
+  selectedOption = i;
+  document.querySelectorAll('.option-btn').forEach((b,idx)=>{
+    b.classList.toggle('selected', idx===i);
+  });
+  document.getElementById('btnSubmit').disabled = false;
+}
+
+function submitAnswer(){
+  if(selectedOption===null || answered) return;
+  answered = true;
+  const q = MODULES[currentQMod].questions[currentQIndex];
+  const correct = selectedOption === q.ans;
+  document.querySelectorAll('.option-btn').forEach((b,i)=>{
+    if(i===q.ans) b.classList.add('correct');
+    else if(i===selectedOption && !correct) b.classList.add('wrong');
+  });
+  if(correct){
+    sessionScore++;
+    document.getElementById('quizFeedback').textContent = '✓ Correct!';
+    document.getElementById('quizFeedback').className = 'quiz-feedback correct';
+  } else {
+    document.getElementById('quizFeedback').textContent = '✗ Incorrect. The correct answer is highlighted.';
+    document.getElementById('quizFeedback').className = 'quiz-feedback wrong';
+  }
+  const total = MODULES[currentQMod].questions.length;
+  const isLast = currentQIndex === total-1;
+  document.getElementById('btnSubmit').textContent = isLast ? 'Finish' : 'Next →';
+  document.getElementById('btnSubmit').disabled = false;
+  document.getElementById('btnSubmit').onclick = isLast ? finishQuiz : nextQuestion;
+}
+
+function nextQuestion(){
+  currentQIndex++;
+  renderQuestion();
+  document.getElementById('btnSubmit').onclick = submitAnswer;
+}
+
+function finishQuiz(){
+  // Save best score (keep highest across retries)
+  const prev = qBestScore[currentQMod];
+  qBestScore[currentQMod] = prev === null ? sessionScore : Math.max(prev, sessionScore);
+  buildQModuleList();
+  buildModuleGrid();
+  buildCertSteps();
+  const total = MODULES[currentQMod].questions.length;
+  const pct   = Math.round((sessionScore/total)*100);
+  showToast('Quiz complete! Score: '+sessionScore+'/'+total+' ('+pct+'%)');
+  showView('questions', document.getElementById('nav-questions'));
+}
+
+/* ════════════════════════════════════
+   CERTIFICATE
+════════════════════════════════════ */
+function buildCertSteps(){
+  let allDone = true;
+  const stepsHtml = MODULES.map((m,i)=>{
+    const tried = qBestScore[i] !== null;
+    const pct   = tried ? Math.round((qBestScore[i]/m.questions.length)*100) : 0;
+    const done  = pct >= 60;
+    if(!done) allDone = false;
+    const cls   = done ? 'done' : (tried ? 'doing' : 'todo');
+    const scoreStr = tried ? pct+'% ('+qBestScore[i]+'/'+m.questions.length+' correct)' : 'Not attempted';
+    return `
+    <div class="cert-step">
+      <div class="cert-step-icon ${cls}">
+        ${done?`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`:
+               `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/></svg>`}
+      </div>
+      <div class="cert-step-info">
+        <h4>${m.num} — ${m.title}</h4>
+        <div class="cert-prog"><div class="cert-prog-fill" style="width:${pct}%"></div></div>
+        <div class="cert-step-pct">${scoreStr}</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('certSteps').innerHTML = stepsHtml;
+  const btn  = document.getElementById('btnDownloadCert');
+  const note = document.getElementById('certNote');
+  // Always enabled (testing mode)
+  btn.disabled = false;
+  btn.style.background='#c8a84b';
+  if(allDone){
+    note.textContent='🎉 Congratulations! You have completed all modules. You are eligible to download your certificate.';
+  } else {
+    note.textContent='⚠️ Testing mode: Certificate download is always available. Complete all 7 modules with ≥60% to fully qualify.';
+  }
+}
+
+function closeNameModal(){
+  document.getElementById('nameModal').classList.remove('open');
+}
+
+function confirmNameAndPrint(){
+  const val = document.getElementById('nameModalInput').value.trim();
+  if(!val){ document.getElementById('nameModalInput').focus(); return; }
+  document.getElementById('pfName').value = val;
+  // Also update header + avatar
+  const initials = val.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('headerUser').textContent = val;
+  document.getElementById('headerAvatar').textContent = initials;
+  document.getElementById('profileAvatarBig').textContent = initials;
+  document.getElementById('profileName').textContent = val;
+  sessionStorage.setItem('portalUser', val);
+  closeNameModal();
+  openCertWindow(val);
+}
+
+function downloadCert(){
+  const pfName = document.getElementById('pfName').value.trim();
+  if(!pfName){
+    // Show the name prompt modal — never fall back to the email
+    document.getElementById('nameModalInput').value = '';
+    document.getElementById('nameModal').classList.add('open');
+    setTimeout(()=>document.getElementById('nameModalInput').focus(), 80);
+    return;
+  }
+  openCertWindow(pfName);
+}
+
+function openCertWindow(displayName){
+  const now         = new Date();
+  const dateStr     = now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+  const baseURL     = window.location.href.replace(/[^/]*$/,'');
+  const certHTML = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+  +'<title>Certificate of Completion</title>'
+  +'<base href="'+baseURL+'">'
+  +'<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">'
+  +'<style>'
+  +'@page{size:A4 landscape;margin:0;}'
+  +'*{box-sizing:border-box;margin:0;padding:0;}'
+  +'html,body{width:100%;height:100%;}'
+  +'body{background:#d0d0d0;font-family:Inter,sans-serif;}'
+  // Toolbar
+  +'.bar{background:#fff;border-bottom:1px solid #d1d5db;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:10;}'
+  +'.bar-left{display:flex;flex-direction:column;justify-content:center;}'
+  +'.bar-left strong{font-size:0.82rem;color:#111827;font-weight:600;}'
+  +'.bar-left span{font-size:0.72rem;color:#6b7280;margin-top:1px;}'
+  +'.bar-right{display:flex;align-items:center;gap:8px;}'
+  +'.bar-right button{height:34px;padding:0 14px;border-radius:6px;font-size:0.78rem;font-family:Inter,sans-serif;font-weight:500;cursor:pointer;}'
+  +'.btn-close{background:#fff;color:#374151;border:1px solid #d1d5db;}'
+  +'.btn-close:hover{background:#f9fafb;}'
+  +'.btn-print{background:#c8a84b;color:#fff;border:none;font-weight:600;}'
+  +'.btn-print:hover{background:#b8943b;}'
+  // Page wrap — screen only, no padding in print
+  +'.page-wrap{padding:30px 32px 36px;display:flex;justify-content:center;align-items:flex-start;background:#d0d0d0;}'
+  // Certificate page — A4 landscape exact
+  +'.page{width:297mm;height:210mm;position:relative;background:#0c1f4a;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.75);-webkit-print-color-adjust:exact;print-color-adjust:exact;flex-shrink:0;}'
+  +'.page::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(200,168,75,0.11) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(200,168,75,0.05) 0%,transparent 70%);pointer-events:none;}'
+  // Corner ornaments
+  +'.co{position:absolute;width:56px;height:56px;}'
+  +'.co.tl{top:0;left:0;border-top:3px solid #c8a84b;border-left:3px solid #c8a84b;}'
+  +'.co.tr{top:0;right:0;border-top:3px solid #c8a84b;border-right:3px solid #c8a84b;}'
+  +'.co.bl{bottom:0;left:0;border-bottom:3px solid #c8a84b;border-left:3px solid #c8a84b;}'
+  +'.co.br{bottom:0;right:0;border-bottom:3px solid #c8a84b;border-right:3px solid #c8a84b;}'
+  +'.inner-border{position:absolute;inset:11px;border:1px solid rgba(200,168,75,0.22);pointer-events:none;}'
+  // MAIN inner flex — space-between fills full height
+  +'.cert-inner{position:relative;z-index:1;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:20px 56px 18px;}'
+  // ── TOP: logo row
+  +'.logo-row{width:100%;display:flex;align-items:center;justify-content:space-between;}'
+  +'.logo-group{display:flex;align-items:center;gap:20px;}'
+  +'.logo-group img{object-fit:contain;}'
+  +'.logo-group img.logo-aga{height:130px;max-width:320px;filter:brightness(0) invert(1) drop-shadow(0 2px 12px rgba(255,255,255,0.25));opacity:0.97;}'
+  +'.logo-sep{width:1px;height:44px;background:rgba(255,255,255,0.2);}'
+  // Seal
+  +'.seal{width:92px;height:92px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 36% 30%,#f5d76e 0%,#c8a84b 52%,#7a5a0e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(200,168,75,0.4),0 8px 28px rgba(0,0,0,0.55);position:relative;}'
+  +'.seal::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px dashed rgba(200,168,75,0.55);}'
+  +'.seal-ico{font-size:24px;line-height:1;}'
+  +'.seal-lbl{font-size:7px;font-weight:800;letter-spacing:0.8px;color:#0c1f4a;text-transform:uppercase;text-align:center;line-height:1.7;margin-top:2px;}'
+  // ── MIDDLE: title block
+  +'.title-block{text-align:center;width:100%;display:flex;flex-direction:column;align-items:center;gap:3px;}'
+  +'.gold-bar{width:88%;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(200,168,75,0.45) 15%,#f5d76e 50%,rgba(200,168,75,0.45) 85%,transparent 100%);}'
+  +'.prog-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(200,168,75,0.8);font-weight:600;display:flex;align-items:center;gap:14px;}'
+  +'.prog-tag::before,.prog-tag::after{content:"";display:inline-block;width:40px;height:1px;background:rgba(200,168,75,0.3);}'
+  +'.care-word{font-family:"Cormorant Garamond",Georgia,serif;font-size:46px;font-weight:700;color:#ffffff;letter-spacing:14px;text-transform:uppercase;line-height:1;}'
+  +'.care-line{font-size:8.5px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.38);}'
+  +'.cert-word{font-family:"Cormorant Garamond",Georgia,serif;font-size:70px;font-weight:600;color:#fff;letter-spacing:12px;text-transform:uppercase;line-height:1;}'
+  +'.cert-of{font-size:11px;letter-spacing:5.5px;text-transform:uppercase;color:#c8a84b;font-weight:500;}'
+  // ── BOTTOM: name + course + date
+  +'.cert-body{text-align:center;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;}'
+  +'.certify-line{font-size:10px;color:rgba(255,255,255,0.38);letter-spacing:3px;text-transform:uppercase;}'
+  +'.name-block{display:inline-block;border-bottom:1.5px solid rgba(200,168,75,0.5);padding:0 60px 6px;}'
+  +'.cert-name{font-family:"Cormorant Garamond",Georgia,serif;font-size:50px;font-style:italic;font-weight:400;color:#f5d76e;line-height:1.1;white-space:nowrap;}'
+  +'.course-line{font-size:11px;color:rgba(255,255,255,0.48);letter-spacing:0.3px;line-height:1.9;}'
+  +'.course-name{color:#c8a84b;font-weight:600;font-size:11.5px;}'
+  +'.date-line{font-size:9.5px;color:rgba(255,255,255,0.32);letter-spacing:2.5px;text-transform:uppercase;}'
+  +'.date-val{color:rgba(255,255,255,0.7);font-weight:600;letter-spacing:0.5px;}'
+  +'.copyright{font-size:7px;color:rgba(255,255,255,0.13);letter-spacing:1.2px;}'
+  // ── PRINT: 1 page, no toolbar, no chrome padding
+  +'@media print{'
+  +'.bar{display:none!important;}'
+  +'body{background:#0c1f4a!important;margin:0;padding:0;}'
+  +'.page-wrap{padding:0!important;margin:0!important;background:transparent!important;display:block!important;}'
+  +'.page{width:100%!important;height:100%!important;box-shadow:none!important;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;}'
+  +'}'
+  +'</style></head><body>'
+  // Toolbar
+  +'<div class="bar">'
+  +  '<div class="bar-left"><strong>Certificate of Completion</strong><span>'+displayName+' &nbsp;&middot;&nbsp; '+dateStr+'</span></div>'
+  +  '<div class="bar-right">'
+  +    '<button class="btn-close" onclick="window.close()">Close</button>'
+  +    '<button class="btn-print" onclick="window.print()">Save as PDF</button>'
+  +  '</div>'
+  +'</div>'
+  // Certificate
+  +'<div class="page-wrap"><div class="page">'
+  +'<div class="co tl"></div><div class="co tr"></div><div class="co bl"></div><div class="co br"></div>'
+  +'<div class="inner-border"></div>'
+  +'<div class="cert-inner">'
+  // TOP — logos
+  +'<div class="logo-row">'
+  +  '<div class="logo-group">'
+  +    '<img src="AGA-Logo-removebg-preview.png" alt="AGA" class="logo-aga">'
+  +  '</div>'
+  +  '<div class="seal"><div class="seal-ico">\u2695\ufe0f</div><div class="seal-lbl">CARE<br>CME<br>Certified</div></div>'
+  +'</div>'
+  // MIDDLE — title block
+  +'<div class="title-block">'
+  +  '<div class="gold-bar"></div>'
+  +  '<div class="prog-tag">Continuing Medical Education</div>'
+  +  '<div class="care-word">CARE</div>'
+  +  '<div class="care-line">Continuing Advances in Nursing Excellence</div>'
+  +  '<div class="cert-word">Certificate</div>'
+  +  '<div class="cert-of">of Course Completion</div>'
+  +  '<div class="gold-bar"></div>'
+  +'</div>'
+  // BOTTOM — body
+  +'<div class="cert-body">'
+  +  '<div class="certify-line">This is to certify that</div>'
+  +  '<div class="name-block"><div class="cert-name">'+displayName+'</div></div>'
+  +  '<div class="course-line">Has successfully completed the IBD nursing certification course<br>'
+  +  '<span class="course-name">CARE &ndash; Continuing Advances in Nursing Excellence &nbsp;&middot;&nbsp; Vonacab&trade; Campaign Portal</span></div>'
+  +  '<div class="date-line">Date of Completion &nbsp;&middot;&nbsp; <span class="date-val">'+dateStr+'</span></div>'
+  +  '<div class="copyright">&copy; Mind Communication &mdash; All Rights Reserved</div>'
+  +'</div>'
+  +'</div></div></div>'
+  +'</body></html>';
+  const win = window.open('','_blank','width=1340,height=980');
+  if(!win){ showToast('Please allow popups to view the certificate.'); return; }
+  win.document.write(certHTML);
+  win.document.close();
+}
+
+/* ════════════════════════════════════
+   SEARCH
+════════════════════════════════════ */
+function doSearch(val){
+  const q = val.trim().toLowerCase();
+  const container = document.getElementById('searchResults');
+  if(!q){ container.innerHTML='<div class="search-empty">Start typing to search across all modules.</div>'; return; }
+  const results = [];
+  MODULES.forEach(m=>{
+    if(m.title.toLowerCase().includes(q)||m.desc.toLowerCase().includes(q)){
+      results.push({title:m.title,sub:'Module: '+m.num,mod:m.id,chap:null});
+    }
+    m.chapters.forEach((ch,ci)=>{
+      if(ch.title.toLowerCase().includes(q)||ch.content.replace(/<[^>]+>/g,'').toLowerCase().includes(q)){
+        results.push({title:ch.title,sub:m.num+' — '+m.title,mod:m.id,chap:ci});
+      }
+    });
+  });
+  if(!results.length){ container.innerHTML='<div class="search-empty">No results found for "'+val+'"</div>'; return; }
+  container.innerHTML=`<div class="search-result">${results.map(r=>`
+    <div class="search-result-item" onclick="${r.chap!==null?'openChapter('+r.mod+','+r.chap+')':'openTOC('+r.mod+')'}">
+      <h4>${r.title}</h4><p>${r.sub}</p>
+    </div>`).join('')}</div>`;
+}
+
+/* ════════════════════════════════════
+   PROFILE
+════════════════════════════════════ */
+function saveProfile(){
+  const name = document.getElementById('pfName').value.trim();
+  if(name){
+    document.getElementById('headerUser').textContent = name;
+    const initials = name.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('headerAvatar').textContent = initials;
+    document.getElementById('profileAvatarBig').textContent = initials;
+    document.getElementById('profileName').textContent = name;
+    sessionStorage.setItem('portalUser', name);
+  }
+  showToast('Profile saved successfully.');
+}
+
+/* ════════════════════════════════════
+   LOGOUT
+════════════════════════════════════ */
+function logout(){
+  sessionStorage.removeItem('portalUser');
+  window.location.href='portal.html';
+}
+
+/* ════════════════════════════════════
+   TOAST
+════════════════════════════════════ */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>

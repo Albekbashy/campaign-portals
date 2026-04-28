@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardiam Metabolic™ Campaign Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
+
+.app{display:flex;flex-direction:column;height:100vh;}
+
+/* ── TOP HEADER ── */
+.header{
+  background:#fff;
+  border-bottom:1px solid #dde3ed;
+  padding:0 20px;
+  box-shadow:0 1px 6px rgba(0,0,0,0.07);
+  z-index:100;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  height:70px;
+}
+
+.header-logos{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:fit-content;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(30,58,138,0.2) transparent;
+}
+
+.header-logos::-webkit-scrollbar {
+  height: 5px;
+}
+
+.header-logos::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.header-logos::-webkit-scrollbar-thumb {
+  background: rgba(30,58,138,0.2);
+  border-radius: 2px;
+}
+
+.header-logos::-webkit-scrollbar-thumb:hover {
+  background: rgba(30,58,138,0.4);
+}
+
+.header-logos img{
+  height:52px;
+  max-width:105px;
+  object-fit:contain;
+  flex-shrink:0;
+  transition:transform 0.2s, filter 0.2s;
+}
+
+.header-logos img:hover{
+  transform:scale(1.08);
+  filter:drop-shadow(0 2px 4px rgba(30,58,138,0.15));
+}
+
+.header-logos img.logo-mc{
+  height:48px;
+  max-width:115px;
+}
+
+.header-center{
+  flex:1;
+  text-align:center;
+  font-size:0.78rem;
+  font-weight:700;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:#8a96b0;
+  white-space:nowrap;
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+
+.header-user{font-size:0.8rem;color:#344467;font-weight:600;}
+
+.header-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:#1e3a8a;color:#fff;font-size:0.78rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+
+/* ── BODY ROW ── */
+.body-row{display:flex;flex:1;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:80px;flex-shrink:0;
+  background:#1e3a8a;
+  display:flex;flex-direction:column;
+  align-items:center;
+  padding:18px 0 24px;
+  gap:4px;
+  overflow:hidden;
+}
+
+.nav-item{
+  width:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:5px;padding:12px 6px;cursor:pointer;
+  border:none;background:none;
+  color:rgba(255,255,255,0.5);
+  font-family:'Inter',sans-serif;font-size:0.56rem;
+  font-weight:600;letter-spacing:0.8px;text-transform:uppercase;
+  transition:background 0.15s,color 0.15s;
+  position:relative;
+}
+
+.nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+.nav-item:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);}
+
+.nav-item.active{background:rgba(255,255,255,0.14);color:#fff;}
+
+.nav-item.active::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;background:#c8a84b;border-radius:0 2px 2px 0;}
+
+.nav-spacer{flex:1;}
+
+.nav-item.signout{color:rgba(255,120,120,0.7);}
+
+.nav-item.signout:hover{color:#ff8080;background:rgba(255,80,80,0.1);}
+
+/* ── MAIN CONTENT ── */
+.main{
+  flex:1;overflow-y:auto;
+  background:#f5f0e8;
+  position:relative;
+}
+
+.main::before{
+  content:'CARDIAM METABOLIC';
+  position:fixed;
+  font-size:6rem;font-weight:900;
+  color:rgba(30,58,138,0.04);
+  letter-spacing:8px;
+  top:50%;left:50%;
+  transform:translate(-40%,-50%) rotate(-15deg);
+  pointer-events:none;
+  z-index:0;white-space:nowrap;
+}
+
+.view{display:none;position:relative;z-index:1;}
+.view.active{display:block;}
+
+/* ════ MODULES VIEW ════ */
+.page-topbar{
+  background:#fff;border-bottom:1px solid #dde3ed;
+  padding:16px 36px;display:flex;align-items:center;justify-content:space-between;
+}
+
+.page-topbar h2{font-size:1rem;font-weight:700;color:#1a2540;letter-spacing:-0.2px;}
+
+.page-topbar span{font-size:0.75rem;color:#8a96b0;}
+
+.modules-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;padding:28px 36px;
+}
+
+.mod-card{
+  background:#fff;border-radius:10px;
+  border:1px solid #dde3ed;
+  box-shadow:0 1px 4px rgba(0,0,0,0.05);
+  overflow:hidden;
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+
+.mod-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(30,58,138,0.1);}
+
+.mod-card-top{
+  height:7px;
+  background:linear-gradient(to right,#1e3a8a,#3b82f6);
+}
+
+.mod-card-body{padding:20px 22px 18px;}
+
+.mod-num{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8a96b0;margin-bottom:8px;}
+
+.mod-title{font-size:0.92rem;font-weight:700;color:#1a2540;line-height:1.35;margin-bottom:10px;}
+
+.mod-desc{font-size:0.75rem;color:#6b7a99;line-height:1.65;margin-bottom:18px;}
+
+.mod-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid #edf0f7;}
+
+.btn-read{
+  height:32px;padding:0 18px;
+  background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  border:none;border-radius:5px;cursor:pointer;
+  transition:background 0.15s;
+}
+
+.btn-read:hover{background:#162d6b;}
+
+.mod-tag{
+  font-size:0.62rem;font-weight:600;letter-spacing:0.5px;
+  text-transform:uppercase;color:#1e3a8a;
+  background:#eef2fb;padding:3px 10px;border-radius:20px;
+}
+
+/* ════ TOC VIEW ════ */
+.toc-wrap{padding:28px 36px;}
+
+.back-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:none;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:0.78rem;
+  font-weight:600;color:#1e3a8a;margin-bottom:20px;padding:0;
+}
+
+.back-btn:hover{text-decoration:underline;}
+
+.back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+.toc-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;max-width:760px;}
+
+.toc-head{
+  background:linear-gradient(135deg,#0f2260,#1e3a8a);
+  padding:24px 28px;
+}
+
+.toc-head .mod-label{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:6px;}
+
+.toc-head h2{font-size:1.25rem;font-weight:800;color:#fff;line-height:1.3;}
+
+.toc-body{padding:0;}
+
+.toc-item{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:16px 28px;border-bottom:1px solid #f0f3f9;
+  cursor:pointer;transition:background 0.12s;
+}
+
+.toc-item:last-child{border-bottom:none;}
+
+.toc-item:hover{background:#f8f9fd;}
+
+.toc-index{
+  width:28px;height:28px;border-radius:50%;
+  background:#eef2fb;color:#1e3a8a;
+  font-size:0.72rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+
+.toc-text h4{font-size:0.85rem;font-weight:600;color:#1a2540;margin-bottom:3px;}
+
+.toc-text p{font-size:0.75rem;color:#8a96b0;line-height:1.5;}
+
+.toc-arrow{margin-left:auto;color:#c8c8d8;align-self:center;flex-shrink:0;}
+
+.toc-arrow svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ════ READING VIEW ════ */
+.read-wrap{max-width:820px;margin:0 auto;padding:32px 36px 60px;}
+
+.read-top-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;
+}
+
+.read-chapter-label{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;}
+
+.read-doc{background:#fff;border-radius:10px;border:1px solid #dde3ed;box-shadow:0 2px 12px rgba(0,0,0,0.06);overflow:hidden;}
+
+.read-doc-head{background:linear-gradient(135deg,#0f2260,#1e3a8a);padding:28px 36px;}
+
+.read-doc-head h1{font-size:1.4rem;font-weight:800;color:#fff;line-height:1.3;margin-bottom:6px;}
+
+.read-doc-head p{font-size:0.8rem;color:rgba(255,255,255,0.55);}
+
+.read-doc-body{padding:32px 36px;}
+
+.read-doc-body h3{font-size:0.95rem;font-weight:700;color:#1a2540;margin:24px 0 10px;padding-bottom:8px;border-bottom:2px solid #f0e8d5;}
+
+.read-doc-body h3:first-child{margin-top:0;}
+
+.read-doc-body p{font-size:0.85rem;color:#374151;line-height:1.85;margin-bottom:12px;}
+
+.read-doc-body ul{padding-left:20px;margin-bottom:14px;}
+
+.read-doc-body ul li{font-size:0.84rem;color:#374151;line-height:1.75;margin-bottom:5px;}
+
+.read-doc-body .highlight-box{
+  background:#fef9ee;border-left:4px solid #c8a84b;
+  border-radius:0 6px 6px 0;padding:14px 18px;margin:16px 0;
+}
+
+.read-doc-body .highlight-box p{margin:0;font-size:0.83rem;color:#5a4a1a;}
+
+.read-nav-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:24px;
+}
+
+.btn-nav{
+  height:38px;padding:0 20px;border-radius:6px;
+  font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:600;
+  cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:7px;
+}
+
+.btn-nav svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+.btn-nav.secondary{background:#fff;border:1.5px solid #dde3ed;color:#374151;}
+
+.btn-nav.secondary:hover{border-color:#1e3a8a;color:#1e3a8a;}
+
+.btn-nav.primary{background:#1e3a8a;border:none;color:#fff;}
+
+.btn-nav.primary:hover{background:#162d6b;}
+
+/* ════ QUESTIONS VIEW ════ */
+.questions-wrap{padding:28px 36px;}
+
+.q-module-list{display:flex;flex-direction:column;gap:14px;max-width:780px;}
+
+.q-row{
+  background:#fff;border-radius:10px;border:1px solid #dde3ed;
+  padding:18px 22px;display:flex;align-items:center;gap:18px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.04);
+}
+
+.q-num{
+  width:36px;height:36px;border-radius:50%;
+  background:#eef2fb;color:#1e3a8a;
+  font-size:0.8rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+
+.q-info{flex:1;}
+
+.q-info h4{font-size:0.88rem;font-weight:700;color:#1a2540;margin-bottom:5px;}
+
+.q-progress-wrap{display:flex;align-items:center;gap:10px;}
+
+.q-progress-bar{flex:1;height:5px;background:#eef2fb;border-radius:3px;overflow:hidden;}
+
+.q-progress-fill{height:100%;background:linear-gradient(to right,#1e3a8a,#3b82f6);border-radius:3px;transition:width 0.3s;}
+
+.q-progress-pct{font-size:0.7rem;color:#8a96b0;font-weight:600;white-space:nowrap;}
+
+.btn-start{
+  height:34px;padding:0 20px;
+  background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;
+  letter-spacing:0.8px;text-transform:uppercase;
+  border:none;border-radius:5px;cursor:pointer;flex-shrink:0;
+  transition:background 0.15s;
+}
+
+.btn-start:hover{background:#162d6b;}
+
+.btn-start.done{background:#16a34a;}
+
+/* ════ CERTIFICATE ════ */
+.cert-wrap{padding:28px 36px;max-width:780px;}
+
+.cert-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+
+.cert-head{background:linear-gradient(135deg,#0f2260,#1e3a8a);padding:22px 28px;}
+
+.cert-head h2{font-size:1.1rem;font-weight:800;color:#fff;}
+
+.cert-head p{font-size:0.78rem;color:rgba(255,255,255,0.55);margin-top:4px;}
+
+.cert-body{padding:24px 28px;}
+
+.cert-steps{display:flex;flex-direction:column;gap:14px;}
+
+.cert-step{display:flex;align-items:center;gap:16px;}
+
+.cert-step-icon{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+
+.cert-step-icon.done{background:#dcfce7;}
+
+.cert-step-icon.doing{background:#dbeafe;}
+
+.cert-step-icon.todo{background:#f3f4f6;}
+
+.cert-step-icon svg{width:18px;height:18px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;}
+
+.cert-step-icon.done svg{stroke:#16a34a;}
+
+.cert-step-icon.doing svg{stroke:#1e3a8a;}
+
+.cert-step-icon.todo svg{stroke:#9ca3af;}
+
+.cert-step-info{flex:1;}
+
+.cert-step-info h4{font-size:0.85rem;font-weight:700;color:#1a2540;margin-bottom:4px;}
+
+.cert-prog{height:6px;background:#eef2fb;border-radius:3px;overflow:hidden;max-width:400px;}
+
+.cert-prog-fill{height:100%;background:linear-gradient(to right,#1e3a8a,#3b82f6);border-radius:3px;}
+
+.cert-step-pct{font-size:0.72rem;color:#8a96b0;margin-top:4px;font-weight:500;}
+
+.cert-eligibility{
+  margin-top:20px;padding:16px 20px;
+  background:#fef9ee;border:1px solid #f0d080;border-radius:8px;
+  display:flex;align-items:center;gap:14px;
+}
+
+.cert-eligibility svg{width:22px;height:22px;stroke:#c8a84b;fill:none;stroke-width:2;flex-shrink:0;}
+
+.cert-eligibility p{font-size:0.8rem;color:#7a5a10;line-height:1.6;}
+
+.btn-cert{
+  height:42px;padding:0 28px;
+  background:#c8a84b;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:700;
+  border:none;border-radius:6px;cursor:pointer;margin-top:20px;
+  letter-spacing:0.5px;transition:background 0.15s;
+}
+
+.btn-cert:hover{background:#a88a30;}
+
+/* ── module progress ── */
+.mod-progress{margin:10px 0 14px;display:flex;flex-direction:column;gap:6px;}
+
+.mod-prog-row{display:flex;align-items:center;gap:8px;font-size:0.7rem;color:#6b7a99;}
+
+.mod-prog-label{width:66px;font-weight:600;flex-shrink:0;}
+
+.mod-prog-bar{flex:1;height:5px;background:#eef2fb;border-radius:3px;overflow:hidden;}
+
+.mod-prog-fill{height:100%;border-radius:3px;transition:width 0.4s;}
+
+.mod-prog-fill.read{background:linear-gradient(to right,#1e3a8a,#3b82f6);}
+
+.mod-prog-fill.quiz{background:linear-gradient(to right,#16a34a,#4ade80);}
+
+.mod-prog-pct{width:32px;text-align:right;font-weight:600;flex-shrink:0;}
+
+/* ════ QUIZ ════ */
+.quiz-wrap{max-width:720px;margin:0 auto;padding:28px 36px 60px;}
+
+.quiz-progress-top{
+  display:flex;align-items:center;gap:14px;margin-bottom:22px;
+}
+
+.quiz-progress-top .q-bar{flex:1;height:6px;background:#dde3ed;border-radius:3px;overflow:hidden;}
+
+.quiz-progress-top .q-fill{height:100%;background:#1e3a8a;border-radius:3px;transition:width 0.3s;}
+
+.quiz-progress-top span{font-size:0.75rem;color:#8a96b0;font-weight:600;white-space:nowrap;}
+
+.quiz-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+
+.quiz-card-head{background:linear-gradient(135deg,#0f2260,#1e3a8a);padding:22px 28px;}
+
+.quiz-card-head .q-label{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:8px;}
+
+.quiz-card-head p{font-size:0.95rem;font-weight:600;color:#fff;line-height:1.5;}
+
+.quiz-options{padding:20px 28px 24px;display:flex;flex-direction:column;gap:10px;}
+
+.option-btn{
+  width:100%;text-align:left;
+  display:flex;align-items:flex-start;gap:14px;
+  padding:13px 16px;border-radius:7px;
+  border:1.5px solid #dde3ed;background:#fafbfd;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  transition:border-color 0.15s,background 0.15s;
+}
+
+.option-btn:hover{border-color:#1e3a8a;background:#eef2fb;}
+
+.option-btn.selected{border-color:#1e3a8a;background:#eef2fb;}
+
+.option-btn.correct{border-color:#16a34a;background:#f0fdf4;}
+
+.option-btn.wrong{border-color:#dc2626;background:#fef2f2;}
+
+.opt-letter{
+  width:26px;height:26px;border-radius:50%;
+  background:#eef2fb;color:#1e3a8a;
+  font-size:0.72rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+
+.option-btn.selected .opt-letter{background:#1e3a8a;color:#fff;}
+
+.option-btn.correct .opt-letter{background:#16a34a;color:#fff;}
+
+.option-btn.wrong .opt-letter{background:#dc2626;color:#fff;}
+
+.opt-text{font-size:0.85rem;color:#374151;line-height:1.5;padding-top:3px;}
+
+.quiz-footer{
+  padding:16px 28px;border-top:1px solid #edf0f7;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fafbfd;
+}
+
+.quiz-feedback{font-size:0.8rem;font-weight:600;}
+
+.quiz-feedback.correct{color:#16a34a;}
+
+.quiz-feedback.wrong{color:#dc2626;}
+
+.btn-submit{
+  height:38px;padding:0 24px;
+  background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:700;
+  border:none;border-radius:6px;cursor:pointer;
+  transition:background 0.15s;
+}
+
+.btn-submit:hover{background:#162d6b;}
+
+.btn-submit:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* ════ SEARCH VIEW ════ */
+.search-wrap{padding:28px 36px;max-width:700px;}
+
+.search-box-wrap{position:relative;margin-bottom:24px;}
+
+.search-box-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:#8a96b0;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+.search-input{
+  width:100%;height:46px;padding:0 14px 0 42px;
+  background:#fff;border:1.5px solid #dde3ed;border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:0.9rem;color:#1a2540;
+  outline:none;transition:border-color 0.15s,box-shadow 0.15s;
+}
+
+.search-input:focus{border-color:#1e3a8a;box-shadow:0 0 0 3px rgba(30,58,138,0.08);}
+
+.search-result{
+  background:#fff;border-radius:8px;border:1px solid #dde3ed;overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,0.05);
+}
+
+.search-result-item{
+  padding:14px 20px;border-bottom:1px solid #f0f3f9;cursor:pointer;
+  transition:background 0.12s;
+}
+
+.search-result-item:last-child{border-bottom:none;}
+
+.search-result-item:hover{background:#f8f9fd;}
+
+.search-result-item h4{font-size:0.84rem;font-weight:600;color:#1a2540;margin-bottom:3px;}
+
+.search-result-item p{font-size:0.75rem;color:#8a96b0;}
+
+.search-empty{text-align:center;padding:40px 20px;color:#8a96b0;font-size:0.85rem;}
+
+/* ════ PROFILE VIEW ════ */
+.profile-wrap{padding:28px 36px;max-width:600px;}
+
+.profile-card{background:#fff;border-radius:10px;border:1px solid #dde3ed;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+
+.profile-head{
+  background:linear-gradient(135deg,#0f2260,#1e3a8a);
+  padding:28px;display:flex;align-items:center;gap:18px;
+}
+
+.profile-avatar-big{
+  width:60px;height:60px;border-radius:50%;
+  background:rgba(200,168,75,0.8);color:#fff;
+  font-size:1.3rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  border:3px solid rgba(255,255,255,0.2);
+}
+
+.profile-head-info h2{font-size:1.05rem;font-weight:700;color:#fff;}
+
+.profile-head-info p{font-size:0.78rem;color:rgba(255,255,255,0.55);margin-top:3px;}
+
+.profile-body{padding:28px;}
+
+.pfield{margin-bottom:20px;}
+
+.pfield label{display:block;font-size:0.72rem;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#6b7a99;margin-bottom:7px;}
+
+.pfield input{
+  width:100%;height:42px;padding:0 14px;
+  background:#f8f9fc;border:1.5px solid #dde3ed;border-radius:6px;
+  font-family:'Inter',sans-serif;font-size:0.88rem;color:#1a2540;
+  outline:none;transition:border-color 0.15s;
+}
+
+.pfield input:focus{border-color:#1e3a8a;background:#fff;}
+
+.pfield input[readonly]{color:#8a96b0;cursor:default;}
+
+.btn-save{
+  height:42px;padding:0 28px;background:#1e3a8a;color:#fff;
+  font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:700;
+  border:none;border-radius:6px;cursor:pointer;transition:background 0.15s;
+}
+
+.btn-save:hover{background:#162d6b;}
+
+/* ════ TOAST ════ */
+.toast{
+  position:fixed;bottom:28px;right:28px;z-index:9999;
+  background:#1a2540;color:#fff;
+  padding:12px 20px;border-radius:8px;font-size:0.82rem;font-weight:500;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  opacity:0;transform:translateY(10px);
+  transition:opacity 0.2s,transform 0.2s;pointer-events:none;
+}
+
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* ════ NAME PROMPT MODAL ════ */
+.name-modal-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.2s;
+}
+
+.name-modal-overlay.open{opacity:1;pointer-events:all;}
+
+.name-modal{
+  background:#1a2540;border-radius:14px;padding:32px 28px 28px;
+  width:380px;max-width:90vw;
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+  transform:translateY(12px);transition:transform 0.2s;
+}
+
+.name-modal-overlay.open .name-modal{transform:translateY(0);}
+
+.name-modal h3{font-size:1.05rem;font-weight:700;color:#f1f5f9;margin-bottom:6px;}
+
+.name-modal p{font-size:0.8rem;color:#64748b;margin-bottom:18px;line-height:1.55;}
+
+.name-modal input{
+  width:100%;height:42px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);color:#f1f5f9;padding:0 14px;
+  font-size:0.88rem;font-family:inherit;outline:none;transition:border-color 0.15s;
+}
+
+.name-modal input:focus{border-color:#c8a84b;}
+
+.name-modal input::placeholder{color:#475569;}
+
+.name-modal-actions{display:flex;gap:10px;margin-top:16px;}
+
+.name-modal-actions button{
+  flex:1;height:40px;border-radius:8px;font-size:0.83rem;font-weight:600;
+  font-family:inherit;cursor:pointer;border:none;transition:filter 0.15s;
+}
+
+.nm-cancel{background:rgba(255,255,255,0.07);color:#64748b;}
+
+.nm-cancel:hover{background:rgba(255,255,255,0.11);}
+
+.nm-confirm{background:#c8a84b;color:#fff;}
+
+.nm-confirm:hover{filter:brightness(1.1);}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-logos">
+      <img src="globalpharma logo_page-0001.png" alt="GlobalPharma" title="GlobalPharma">
+      <img src="CMbrix logo p_page-0001.png" alt="CMbrix" title="CMbrix">
+      <img src="Atorlip logo_page-0001.png" alt="Atorlip" title="Atorlip">
+      <img src="Emiros logo_page-0001.png" alt="Emiros" title="Emiros">
+      <img src="Glovadip logo_page-0001.png" alt="Glovadip" title="Glovadip">
+      <img src="Emijan M logo_page-0001.png" alt="Emijan M" title="Emijan M">
+      <img src="Ruset logo _page-0001.png" alt="Ruset" title="Ruset">
+      <img src="Sartan logo_page-0001.png" alt="Sartan" title="Sartan">
+      <img src="MD_Logo.png" alt="MD Logo" title="MD Logo" class="logo-mc">
+    </div>
+    <div class="header-center">Cardiam Metabolic™ Campaign Portal</div>
+    <div class="header-right">
+      <span class="header-user" id="headerUser">User</span>
+      <div class="header-avatar" id="headerAvatar">U</div>
+    </div>
+  </header>
+
+  <div class="body-row">
+
+    <!-- ══ SIDEBAR ══ -->
+    <nav class="sidebar">
+      <button class="nav-item active" onclick="showView('modules',this)" id="nav-modules">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Modules
+      </button>
+      <button class="nav-item" onclick="showView('questions',this)" id="nav-questions">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Questions
+      </button>
+      <button class="nav-item" onclick="showView('certificate',this)" id="nav-certificate">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Certificate
+      </button>
+      <button class="nav-item" onclick="showView('search',this)" id="nav-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search
+      </button>
+      <div class="nav-spacer"></div>
+      <button class="nav-item" onclick="showView('profile',this)" id="nav-profile">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </button>
+      <button class="nav-item signout" onclick="logout()">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+      <div class="nav-copyright">© Mind<br>Comm.</div>
+    </nav>
+
+    <!-- ══ MAIN ══ -->
+    <main class="main" id="mainArea">
+
+      <!-- ▸ MODULES -->
+      <div class="view active" id="view-modules">
+        <div class="page-topbar">
+          <h2>Learning Modules</h2>
+          <span>7 modules available — click a module to begin reading</span>
+        </div>
+        <div class="modules-grid" id="moduleGrid"></div>
+      </div>
+
+      <!-- ▸ TABLE OF CONTENTS -->
+      <div class="view" id="view-toc">
+        <div class="toc-wrap">
+          <button class="back-btn" onclick="showView('modules',document.getElementById('nav-modules'))">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Modules
+          </button>
+          <div class="toc-card" id="tocCard"></div>
+        </div>
+      </div>
+
+      <!-- ▸ READING -->
+      <div class="view" id="view-reading">
+        <div class="read-wrap">
+          <div class="read-top-nav">
+            <button class="back-btn" onclick="backToToc()">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              Table of Contents
+            </button>
+            <span class="read-chapter-label" id="readChapterLabel"></span>
+          </div>
+          <div class="read-doc" id="readDoc"></div>
+          <div class="read-nav-bottom">
+            <button class="btn-nav secondary" id="btnPrevChapter" onclick="navigateChapter(-1)">
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              Previous
+            </button>
+            <button class="btn-nav primary" id="btnNextChapter" onclick="navigateChapter(1)">
+              Next
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▸ QUESTIONS LIST -->
+      <div class="view" id="view-questions">
+        <div class="page-topbar">
+          <h2>Module Questions</h2>
+          <span>Test your knowledge for each module</span>
+        </div>
+        <div class="questions-wrap">
+          <div class="q-module-list" id="qModuleList"></div>
+        </div>
+      </div>
+
+      <!-- ▸ QUIZ -->
+      <div class="view" id="view-quiz">
+        <div class="quiz-wrap">
+          <button class="back-btn" onclick="showView('questions',document.getElementById('nav-questions'))">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Questions
+          </button>
+          <div class="quiz-progress-top">
+            <div class="q-bar"><div class="q-fill" id="quizProgressFill"></div></div>
+            <span id="quizProgressLabel">1 / 5</span>
+          </div>
+          <div class="quiz-card">
+            <div class="quiz-card-head">
+              <div class="q-label" id="quizModLabel"></div>
+              <p id="quizQuestion"></p>
+            </div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-footer">
+              <span class="quiz-feedback" id="quizFeedback"></span>
+              <button class="btn-submit" id="btnSubmit" onclick="submitAnswer()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▸ CERTIFICATE -->
+      <div class="view" id="view-certificate">
+        <div class="page-topbar">
+          <h2>Certificate of Completion</h2>
+          <span>Complete all modules and questions to earn your certificate</span>
+        </div>
+        <div class="cert-wrap">
+          <div class="cert-card">
+            <div class="cert-head">
+              <h2>CME Certificate Path</h2>
+              <p>Track your progress toward earning the Cardiam Metabolic™ Campaign Certificate</p>
+            </div>
+            <div class="cert-body">
+              <div class="cert-steps" id="certSteps"></div>
+              <div class="cert-eligibility">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p id="certNote">Complete all 7 modules and pass all question sets to become eligible for your certificate.</p>
+              </div>
+              <button class="btn-cert" id="btnDownloadCert" disabled onclick="downloadCert()">Download Certificate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▸ SEARCH -->
+      <div class="view" id="view-search">
+        <div class="page-topbar">
+          <h2>Search</h2>
+          <span>Search across all modules</span>
+        </div>
+        <div class="search-wrap">
+          <div class="search-box-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search modules, topics, keywords…" oninput="doSearch(this.value)">
+          </div>
+          <div id="searchResults"><div class="search-empty">Start typing to search across all modules.</div></div>
+        </div>
+      </div>
+
+      <!-- ▸ PROFILE -->
+      <div class="view" id="view-profile">
+        <div class="page-topbar">
+          <h2>My Profile</h2>
+          <span>Your account details</span>
+        </div>
+        <div class="profile-wrap">
+          <div class="profile-card">
+            <div class="profile-head">
+              <div class="profile-avatar-big" id="profileAvatarBig">U</div>
+              <div class="profile-head-info">
+                <h2 id="profileName">User</h2>
+                <p>Portal Member — Cardiam Metabolic™ Campaign</p>
+              </div>
+            </div>
+            <div class="profile-body">
+              <div class="pfield"><label>Full Name</label><input type="text" id="pfName" placeholder="Your name"></div>
+              <div class="pfield"><label>Email / Username</label><input type="text" id="pfEmail" readonly></div>
+              <div class="pfield"><label>Specialty</label><input type="text" id="pfSpec" placeholder="e.g. Cardiology, Endocrinology"></div>
+              <div class="pfield"><label>Institution</label><input type="text" id="pfInst" placeholder="e.g. King Abdulaziz University Hospital"></div>
+              <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main><!-- /main -->
+  </div>
+</div>
+
+<!-- Name Prompt Modal -->
+<div class="name-modal-overlay" id="nameModal">
+  <div class="name-modal">
+    <h3>Enter your full name</h3>
+    <p>Your full name is required to appear on the certificate. Please enter it below to continue.</p>
+    <input type="text" id="nameModalInput" placeholder="e.g. Dr. Sarah Al-Rashidi" maxlength="80"
+      onkeydown="if(event.key==='Enter')confirmNameAndPrint()">
+    <div class="name-modal-actions">
+      <button class="nm-cancel" onclick="closeNameModal()">Cancel</button>
+      <button class="nm-confirm" onclick="confirmNameAndPrint()">Continue to Certificate</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════
+   DATA - CARDIAM METABOLIC MODULES
+════════════════════════════════════ */
+const MODULES = [
+  {
+    id:0, num:'Module 01', tag:'Cardiology',
+    title:'Cardiovascular Risk & Hypertension Management',
+    desc:'Assessment of CV risk factors, hypertension pathophysiology, antihypertensive pharmacotherapy, resistant hypertension and lifestyle modification strategies.',
+    chapters:[
+      {
+        title:'Cardiovascular Risk Assessment',
+        content:`
+          <h3>Introduction to CV Risk</h3>
+          <p>Cardiovascular disease remains the leading cause of morbidity and mortality globally. Accurate risk stratification is essential for guiding preventive therapy and intervention intensity.</p>
+          <div class="highlight-box"><p><strong>Key Point:</strong> The Cardiam Metabolic™ platform provides comprehensive risk assessment tools integrating multiple biomarkers, imaging modalities, and clinical parameters to optimize patient outcomes.</p></div>
+          <h3>Risk Assessment Tools</h3>
+          <ul><li>Framingham Risk Score: predicts 10-year risk of coronary heart disease</li><li>ASCVD Risk Estimator: incorporates non-fatal and fatal events</li><li>CAC scoring: coronary artery calcium quantification</li><li>Carotid IMT: subclinical atherosclerosis marker</li></ul>
+          <h3>Major CV Risk Factors</h3>
+          <ul><li>Hypertension (BP ≥130/80 mmHg)</li><li>Dyslipidemia (elevated LDL, triglycerides; low HDL)</li><li>Diabetes mellitus and glucose intolerance</li><li>Obesity (BMI ≥30 kg/m²)</li><li>Smoking and tobacco use</li><li>Physical inactivity</li><li>Unfavorable diet</li></ul>`
+      },
+      {
+        title:'Hypertension Pathophysiology & Diagnosis',
+        content:`
+          <h3>Definition & Classification</h3>
+          <p>Hypertension is defined as SBP ≥130 or DBP ≥80 mmHg (2017 ACC/AHA guidelines). Stages: Elevated (SBP 120-129, DBP <80), Stage 1 (SBP 130-139 or DBP 80-89), Stage 2 (SBP ≥140 or DBP ≥90).</p>
+          <h3>Pathophysiology</h3>
+          <ul><li>Essential hypertension (~90-95%): multifactorial—genetic + environmental factors</li><li>Secondary hypertension (~5-10%): identifiable cause (renal, endocrine, vascular)</li><li>Mechanisms: increased cardiac output, elevated peripheral resistance, autonomic dysfunction, RAAS activation, endothelial dysfunction</li></ul>
+          <h3>Diagnosis</h3>
+          <p>Out-of-office BP measurement preferred: home BP monitoring or 24-hour ABPM. Office BP typically overestimates due to white-coat effect. Confirm diagnosis with multiple readings before initiating therapy.</p>
+          <div class="highlight-box"><p><strong>Clinical Pearl:</strong> Home BP monitoring is superior for long-term management decisions and predicts CV outcomes better than office readings.</p></div>`
+      },
+      {
+        title:'Antihypertensive Pharmacotherapy',
+        content:`
+          <h3>First-Line Agents</h3>
+          <ul><li>ACE inhibitors: improve renal outcomes in diabetes; contraindicated in pregnancy</li><li>Angiotensin II receptor blockers (ARBs): similar efficacy to ACEi; good tolerability</li><li>Calcium channel blockers (CCBs): effective in elderly, resistant hypertension</li><li>Thiazide/thiazide-like diuretics: proven CV risk reduction; monitor metabolic effects</li></ul>
+          <h3>Combination Therapy</h3>
+          <p>Most patients require ≥2 agents. Preferred combinations: ACEi/ARB + CCB or diuretic; avoiding ACEi + ARB combination due to similar mechanisms. Fixed-dose combinations improve adherence.</p>
+          <h3>Treatment Targets</h3>
+          <ul><li>General population: <130/80 mmHg</li><li>Diabetes: <130/80 mmHg (if tolerated without adverse effects)</li><li>CKD: <120 mmHg SBP (ACCORD-BP trial)</li><li>Elderly (≥65 years): <130 mmHg SBP</li></ul>
+          <div class="highlight-box"><p><strong>Resistant Hypertension:</strong> BP not at goal despite ≥3 agents at optimal doses, including a diuretic. Evaluate for secondary causes, medication adherence, and consider spironolactone or newer agents.</p></div>`
+      }
+    ],
+    questions:[
+      {q:'What is the 2017 ACC/AHA definition of hypertension?',opts:['SBP ≥140 or DBP ≥90 mmHg','SBP ≥130 or DBP ≥80 mmHg','SBP ≥150 or DBP ≥100 mmHg','SBP ≥110 or DBP ≥70 mmHg'],ans:1},
+      {q:'Which measurement method is preferred for confirming hypertension diagnosis?',opts:['Single office reading','Home BP monitoring or 24-hour ABPM','Pharmacy kiosk measurement','Wearable device only'],ans:1},
+      {q:'What is the recommended BP target for diabetic patients with hypertension?',opts:['<140/90 mmHg','<130/80 mmHg','<120/70 mmHg','<150/100 mmHg'],ans:1},
+      {q:'Which drug combination should be avoided in hypertension therapy?',opts:['ACEi + Diuretic','CCB + Thiazide','ACEi + ARB','ARB + Diuretic'],ans:2},
+      {q:'Resistant hypertension is defined as uncontrolled BP despite how many agents?',opts:['1 agent','2 agents','≥3 agents including a diuretic','≥4 agents'],ans:2}
+    ]
+  },
+  {
+    id:1, num:'Module 02', tag:'Metabolic',
+    title:'Type 2 Diabetes Mellitus: Pathophysiology & Diagnosis',
+    desc:'Insulin resistance, beta cell dysfunction, screening criteria, diagnostic tests, OGTT, HbA1c and cardiovascular risk in diabetes.',
+    chapters:[
+      {
+        title:'Pathophysiology of T2DM',
+        content:`
+          <h3>Insulin Resistance</h3>
+          <p>Central mechanism of T2DM development. Characterized by diminished cellular response to insulin in liver, muscle, and adipose tissue, leading to compensatory hyperinsulinemia.</p>
+          <h3>Beta Cell Dysfunction</h3>
+          <p>Progressive loss of pancreatic β-cell function over time. Initially, increased insulin secretion compensates for resistance. Eventually, β-cell exhaustion occurs, leading to overt hyperglycemia.</p>
+          <h3>Adipose Tissue Dysfunction</h3>
+          <ul><li>Increased visceral adiposity → lipotoxicity</li><li>Impaired adiponectin production → insulin resistance</li><li>Chronic inflammation → ectopic fat deposition</li></ul>
+          <div class="highlight-box"><p><strong>Cardiam Insight:</strong> Early intervention with metabolic optimization programs can improve insulin sensitivity and delay or prevent T2DM progression.</p></div>`
+      },
+      {
+        title:'Diagnostic Criteria & Screening',
+        content:`
+          <h3>Diagnostic Criteria (ADA 2023)</h3>
+          <ul><li>FPG ≥126 mg/dL (≥7.0 mmol/L)</li><li>2-hour PG ≥200 mg/dL (≥11.1 mmol/L) during OGTT</li><li>HbA1c ≥6.5% (≥48 mmol/mol)</li><li>Random PG ≥200 mg/dL (≥11.1 mmol/L) with symptoms</li></ul>
+          <h3>Prediabetes (Increased Risk)</h3>
+          <ul><li>FPG 100-125 mg/dL (5.6-6.9 mmol/L)</li><li>2-hour PG 140-199 mg/dL (7.8-11.0 mmol/L) on OGTT</li><li>HbA1c 5.7-6.4% (39-46 mmol/mol)</li></ul>
+          <h3>Screening Recommendations</h3>
+          <p>Screen all adults age ≥45 or those with risk factors (obesity, sedentary lifestyle, FHx of diabetes, high-risk ethnic groups) every 3 years.</p>`
+      }
+    ],
+    questions:[
+      {q:'What is the primary pathophysiologic mechanism in T2DM?',opts:['Autoimmune destruction of β-cells','Insulin resistance and progressive β-cell dysfunction','Viral infection of the pancreas','Insufficient dietary carbohydrate intake'],ans:1},
+      {q:'What FPG level defines prediabetes?',opts:['<100 mg/dL','100-125 mg/dL','126-150 mg/dL','>150 mg/dL'],ans:1},
+      {q:'Which HbA1c range is diagnostic for diabetes?',opts:['<5.7%','5.7-6.4%','≥6.5%','≥7.5%'],ans:2},
+      {q:'How often should screening occur in asymptomatic adults?',opts:['Annually','Every 2 years','Every 3 years','Every 5 years'],ans:2},
+      {q:'What does an OGTT measure?',opts:['Fasting glucose only','Random glucose only','2-hour postprandial glucose response','Beta-cell mass'],ans:2}
+    ]
+  },
+  {
+    id:2, num:'Module 03', tag:'Lipids',
+    title:'Dyslipidemia Management & Cholesterol Targets',
+    desc:'Lipid metabolism, LDL-C pathophysiology, statin therapy, non-statin agents, PCSK9 inhibitors and novel lipid-lowering therapeutics.',
+    chapters:[
+      {
+        title:'Lipid Metabolism & Dyslipidemia',
+        content:`
+          <h3>Lipid Profiles & ASCVD Risk</h3>
+          <p>LDL-cholesterol is primary therapeutic target. HDL is inversely associated with CVD risk. Triglycerides predict residual risk even with LDL at goal.</p>
+          <h3>Pathophysiology of Atherosclerotic CVD</h3>
+          <ul><li>LDL oxidation → endothelial dysfunction</li><li>Recruitment of inflammatory cells</li><li>Foam cell formation and plaque development</li><li>Plaque rupture and thrombosis</li></ul>
+          <div class="highlight-box"><p><strong>Key Concept:</strong> LDL-lowering therapy is fundamental to ASCVD prevention. Achieving lower LDL-C targets reduces CV events proportionally.</p></div>`
+      },
+      {
+        title:'Statin Therapy & Beyond',
+        content:`
+          <h3>Statin Mechanism</h3>
+          <p>HMG-CoA reductase inhibitors reduce LDL-C by 20-50% depending on intensity. High-intensity: atorvastatin 40-80mg, rosuvastatin 20-40mg daily.</p>
+          <h3>LDL-C Treatment Targets</h3>
+          <ul><li>Very high-risk ASCVD: <55 mg/dL (<1.4 mmol/L)</li><li>High-risk: <70 mg/dL (<1.8 mmol/L)</li><li>Moderate-risk: <100 mg/dL (<2.6 mmol/L)</li></ul>
+          <h3>Non-Statin Agents</h3>
+          <ul><li>PCSK9 inhibitors: additional 50% LDL-C reduction</li><li>Ezetimibe: 15-20% LDL-C reduction</li><li>Bempedoic acid: recent approval for statin-intolerant patients</li></ul>`
+      }
+    ],
+    questions:[
+      {q:'What is the primary LDL-C target for very high-risk ASCVD patients?',opts:['<100 mg/dL','<70 mg/dL','<55 mg/dL','<40 mg/dL'],ans:2},
+      {q:'Which HMG-CoA reductase inhibitor is considered high-intensity?',opts:['Simvastatin 20mg','Pravastatin 40mg','Atorvastatin 80mg','Lovastatin 10mg'],ans:2},
+      {q:'What is the approximate LDL-C reduction with ezetimibe monotherapy?',opts:['5-10%','15-20%','30-40%','50-60%'],ans:1},
+      {q:'PCSK9 inhibitors reduce LDL-C by approximately:',opts:['10-20%','25-35%','40-50%','60-70%'],ans:2},
+      {q:'Which lipid parameter has an inverse relationship with CVD risk?',opts:['LDL-cholesterol','Triglycerides','VLDL','HDL-cholesterol'],ans:3}
+    ]
+  },
+  {
+    id:3, num:'Module 04', tag:'Obesity',
+    title:'Obesity & Weight Management Strategies',
+    desc:'BMI classification, metabolic syndrome, lifestyle intervention, pharmacotherapy (GLP-1 RAs, tirzepatide), bariatric surgery outcomes.',
+    chapters:[
+      {
+        title:'Obesity: Classification & Epidemiology',
+        content:`
+          <h3>BMI Classification (WHO)</h3>
+          <ul><li>Underweight: BMI <18.5</li><li>Normal weight: BMI 18.5-24.9</li><li>Overweight: BMI 25-29.9</li><li>Obesity Class I: BMI 30-34.9</li><li>Obesity Class II: BMI 35-39.9</li><li>Obesity Class III (severe): BMI ≥40</li></ul>
+          <h3>Metabolic Syndrome</h3>
+          <p>Cluster of metabolic abnormalities: central obesity, elevated BP, dyslipidemia, impaired fasting glucose. Increases CVD and T2DM risk.</p>
+          <div class="highlight-box"><p><strong>Cardiam Focus:</strong> Weight loss of 5-10% improves metabolic parameters; 15% or more significantly reduces CV and metabolic disease risk.</p></div>`
+      },
+      {
+        title:'Pharmacotherapy & GLP-1 Receptor Agonists',
+        content:`
+          <h3>GLP-1 Receptor Agonists</h3>
+          <ul><li>Semaglutide: 15-17% weight loss at 2.4mg weekly</li><li>Tirzepatide (dual GLP-1/GIP): up to 22% weight loss—most effective approved agent</li><li>Mechanism: increased satiety, reduced appetite, improved glycemic control</li></ul>
+          <h3>Weight Loss Surgery</h3>
+          <ul><li>Sleeve gastrectomy: 50-60% excess weight loss</li><li>Roux-en-Y bypass: 60-80% excess weight loss; T2DM remission common</li><li>Indications: BMI ≥40 or ≥35 with comorbidities</li></ul>
+          <div class="highlight-box"><p><strong>Evidence-Based:</strong> Comprehensive lifestyle + pharmacotherapy often more effective than monotherapy for sustained weight loss and cardiometabolic improvements.</p></div>`
+      }
+    ],
+    questions:[
+      {q:'What BMI range defines obesity Class II?',opts:['25-29.9','30-34.9','35-39.9','≥40'],ans:2},
+      {q:'What percentage weight loss produces meaningful metabolic improvement?',opts:['2-3%','5-10%','15-20%','25-30%'],ans:1},
+      {q:'Which GLP-1 RA produces the most significant weight loss in recent trials?',opts:['Liraglutide','Dulaglutide','Semaglutide','Tirzepatide'],ans:3},
+      {q:'What is typical excess weight loss with sleeve gastrectomy?',opts:['20-30%','40-50%','50-60%','70-80%'],ans:2},
+      {q:'Metabolic syndrome diagnosis typically requires central obesity plus how many additional criteria?',opts:['1','2','3 or more','All 4'  ],ans:2}
+    ]
+  },
+  {
+    id:4, num:'Module 05', tag:'CKD',
+    title:'Chronic Kidney Disease & RAAS Inhibition',
+    desc:'CKD staging, eGFR assessment, RAAS inhibition efficacy, SGLT2 inhibitors, finerenone and renoprotection strategies.',
+    chapters:[
+      {
+        title:'CKD Epidemiology & Pathophysiology',
+        content:`
+          <h3>CKD Staging (KDIGO)</h3>
+          <ul><li>G1: eGFR ≥90 (normal or high)</li><li>G2: eGFR 60-89 (mildly decreased)</li><li>G3a: eGFR 45-59 (mildly to moderately decreased)</li><li>G3b: eGFR 30-44 (moderately to severely decreased)</li><li>G4: eGFR 15-29 (severely decreased)</li><li>G5: eGFR <15 (kidney failure)</li></ul>
+          <h3>Major CKD Causes</h3>
+          <p>Diabetes (35-40%), hypertension (25-30%), glomerulonephritis, interstitial nephritis, polycystic kidney disease, congenital/inherited disorders.</p>
+          <div class="highlight-box"><p><strong>Cardiam Relevant:</strong> CKD significantly increases CV mortality risk—comprehensive metabolic and renal protection strategies are essential.</p></div>`
+      },
+      {
+        title:'Renoprotective Pharmacotherapy',
+        content:`
+          <h3>RAAS Inhibition</h3>
+          <ul><li>ACE inhibitors & ARBs: reduce intraglomerular pressure, decrease proteinuria</li><li>Aldosterone antagonists: finerenone shows renal CV benefits</li><li>Do not combine ACEi + ARB due to increased hyperkalemia risk</li></ul>
+          <h3>SGLT2 Inhibitors</h3>
+          <p>Proven renal protection in CKD ± diabetes. Mechanisms: improved glycemic control, natriuresis, reduced glomerular hyperfiltration, anti-inflammatory effects.</p>
+          <h3>Finerenone</h3>
+          <p>Non-steroidal mineralocorticoid receptor antagonist. FIDELITY trial: reduces CKD progression and CV death in diabetic CKD patients.</p>`
+      }
+    ],
+    questions:[
+      {q:'What eGFR range defines CKD Stage G3a?',opts:['60-89','45-59','30-44','15-29'],ans:1},
+      {q:'Which two conditions account for ~60-70% of CKD cases?',opts:['Glomerulonephritis and vasculitis','Diabetes and hypertension','Polycystic kidney disease and inherited nephritis','Sepsis and drug-induced'],ans:1},
+      {q:'Why should ACEi and ARB not be combined in CKD management?',opts:['Reduced efficacy','Increased hyperkalemia risk','Ineffective for proteinuria','No specific contraindication'],ans:1},
+      {q:'SGLT2 inhibitors reduce CKD progression through which primary mechanism?',opts:['Increased GFR filtration','Reduced glomerular hyperfiltration and inflammation','Direct β-cell stimulation','Increased aldosterone secretion'],ans:1},
+      {q:'Finerenone is classified as which type of receptor antagonist?',opts:['Beta-blocker','ACE inhibitor','Non-steroidal mineralocorticoid receptor antagonist','Thiazide diuretic'],ans:2}
+    ]
+  },
+  {
+    id:5, num:'Module 06', tag:'Atherosclerosis',
+    title:'Atherosclerosis & Acute Coronary Syndrome',
+    desc:'Atherosclerotic plaque morphology, plaque rupture, ACS pathophysiology, NSTEMI vs STEMI, troponin biomarkers and risk stratification.',
+    chapters:[
+      {
+        title:'Pathophysiology of Atherosclerotic Plaque',
+        content:`
+          <h3>Plaque Development Stages</h3>
+          <ul><li>Fatty streak formation: lipid accumulation in endothelium</li><li>Intermediate lesion: smooth muscle cell proliferation</li><li>Atheroma: lipid core with fibrous cap</li><li>Fibroatheroma: advanced lesion with necrotic core</li></ul>
+          <h3>Plaque Rupture & Thrombosis</h3>
+          <p>Vulnerable plaques have thin fibrous caps, large lipid cores, and increased inflammation. Rupture → tissue factor exposure → thrombus formation → acute coronary syndrome.</p>
+          <div class="highlight-box"><p><strong>Clinical Pearl:</strong> Aggressive LDL-lowering and anti-inflammatory therapy stabilize plaques and reduce ACS risk.</p></div>`
+      },
+      {
+        title:'Acute Coronary Syndrome: Classification & Management',
+        content:`
+          <h3>ACS Classification</h3>
+          <ul><li>STEMI: complete coronary occlusion with ST elevation</li><li>NSTEMI: partial occlusion or thrombus → troponin elevation without ST-elevation</li><li>Unstable angina: ischemic symptoms without troponin elevation</li></ul>
+          <h3>Acute Management</h3>
+          <ul><li>STEMI: emergent reperfusion (primary PCI or fibrinolysis)</li><li>NSTEMI: dual antiplatelet therapy, anticoagulation, beta-blockers, ACE inhibitors, statins</li></ul>
+          <h3>Risk Stratification</h3>
+          <p>TIMI risk score, HEART score, troponin kinetics, ECG changes, comorbidities guide intensity of monitoring and therapy.</p>`
+      }
+    ],
+    questions:[
+      {q:'Which plaque type has the highest rupture risk?',opts:['Stable atheroma','Fibrous lesion','Vulnerable plaque with thin cap and large lipid core','Calcified plaque'],ans:2},
+      {q:'What distinguishes STEMI from NSTEMI?',opts:['Symptoms only','ST elevation on ECG','Troponin negativity','Culprit artery location only'],ans:1},
+      {q:'What is the first-line reperfusion strategy for acute STEMI?',opts:['Fibrinolytic therapy','Aspirin alone','Primary percutaneous coronary intervention (PCI)','Conservative management'],ans:2},
+      {q:'Troponin elevation typically becomes detectable how many hours after MI?',opts:['0-2 hours','2-4 hours','4-12 hours','>24 hours'],ans:2},
+      {q:'Which medication class provides both antiplatelet and anti-inflammatory benefits in ACS?',opts:['ACE inhibitors','Aspirin','Beta-blockers','Nitrates'],ans:1}
+    ]
+  },
+  {
+    id:6, num:'Module 07', tag:'Prevention',
+    title:'Cardiovascular & Metabolic Prevention Strategies',
+    desc:'Primary & secondary prevention, lifestyle medicine, exercise prescription, Mediterranean diet, smoking cessation and long-term CV risk reduction.',
+    chapters:[
+      {
+        title:'Primary Prevention & Lifestyle Medicine',
+        content:`
+          <h3>Pillars of CV Prevention</h3>
+          <ul><li>Smoking cessation: reduces MI risk by 50% within 1 year</li><li>Mediterranean diet: reduces CV events by 30% (PREDIMED trial)</li><li>Physical activity: ≥150 min moderate-intensity or ≥75 min vigorous weekly</li><li>Weight management: 5-10% loss improves multiple risk factors</li></ul>
+          <h3>Stress Management & Sleep</h3>
+          <p>Chronic stress increases CV events. Adequate sleep (7-9 hours) is protective. Sleep apnea screening important in high-risk populations.</p>
+          <div class="highlight-box"><p><strong>Evidence-Based:</strong> Comprehensive lifestyle intervention approaches reduce CV events more effectively than single interventions alone.</p></div>`
+      },
+      {
+        title:'Secondary Prevention & Long-term Management',
+        content:`
+          <h3>Post-MI Risk Reduction</h3>
+          <ul><li>Dual antiplatelet therapy: aspirin + P2Y12 inhibitor duration based on risk</li><li>High-intensity statin therapy: target LDL <55 mg/dL</li><li>RAAS inhibition: ACE inhibitor or ARB in all post-MI patients</li><li>Beta-blockers: beneficial especially with reduced EF</li></ul>
+          <h3>Cardiac Rehabilitation</h3>
+          <p>Supervised exercise program, nutritional counseling, smoking cessation support, psychological assessment. Reduces mortality by 25-30% post-MI.</p>
+          <h3>Long-term Monitoring</h3>
+          <p>Regular follow-up, medication adherence assessment, repeat lipid panels, ECG/imaging as indicated, comorbidity management (diabetes, HTN, CKD).</p>`
+      }
+    ],
+    questions:[
+      {q:'By what percentage does smoking cessation reduce MI risk within 1 year?',opts:['10-20%','30-40%','50%','70%'],ans:2},
+      {q:'What are the recommended minutes of aerobic exercise weekly for CV prevention?',opts:['≥75 min vigorous or ≥150 min moderate','≥100 min vigorous or ≥200 min moderate','≥50 min daily vigorous','Exercise frequency not evidence-based'],ans:0},
+      {q:'The PREDIMED trial demonstrated what benefit of Mediterranean diet?',opts:['10% CV event reduction','20% CV event reduction','30% CV event reduction','No significant benefit'],ans:2},
+      {q:'What is the recommended post-MI LDL-C target with high-intensity statin therapy?',opts:['<100 mg/dL','<70 mg/dL','<55 mg/dL','<40 mg/dL'],ans:2},
+      {q:'Cardiac rehabilitation post-MI reduces mortality by approximately:',opts:['5-10%','15-20%','25-30%','40-50%'],ans:2}
+    ]
+  }
+];
+
+/* ════════════════════════════════════
+   STATE & INITIALIZATION
+════════════════════════════════════ */
+let currentModIndex   = 0;
+let currentChapter    = 0;
+let currentQMod       = 0;
+let currentQIndex     = 0;
+let selectedOption    = null;
+let answered          = false;
+const readProgress = MODULES.map(m => new Array(m.chapters.length).fill(false));
+const qBestScore   = new Array(MODULES.length).fill(null);
+let   sessionScore = 0;
+
+(function init(){
+  const user = sessionStorage.getItem('portalUser') || 'User';
+  const initials = user.split(/[\s.@_-]+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2) || user[0].toUpperCase();
+  document.getElementById('headerUser').textContent   = user;
+  document.getElementById('headerAvatar').textContent = initials;
+  document.getElementById('profileAvatarBig').textContent = initials;
+  document.getElementById('profileName').textContent  = user;
+  document.getElementById('pfEmail').value            = user;
+  buildModuleGrid();
+  buildQModuleList();
+  buildCertSteps();
+})();
+
+function showView(name, btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const el = document.getElementById('view-'+name);
+  if(el) el.classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.getElementById('mainArea').scrollTop = 0;
+}
+
+function buildModuleGrid(){
+  const grid = document.getElementById('moduleGrid');
+  grid.innerHTML = MODULES.map((m,i)=>{
+    const totalChaps = m.chapters.length;
+    const readChaps  = readProgress[i].filter(Boolean).length;
+    const readPct    = Math.round((readChaps/totalChaps)*100);
+    const qPct       = qBestScore[i]!==null ? Math.round((qBestScore[i]/m.questions.length)*100) : null;
+    return `<div class="mod-card"><div class="mod-card-top"></div><div class="mod-card-body"><div class="mod-num">${m.num}</div><div class="mod-title">${m.title}</div><div class="mod-desc">${m.desc}</div><div class="mod-progress"><div class="mod-prog-row"><span class="mod-prog-label">Reading</span><div class="mod-prog-bar"><div class="mod-prog-fill read" style="width:${readPct}%"></div></div><span class="mod-prog-pct">${readPct}%</span></div><div class="mod-prog-row"><span class="mod-prog-label">Questions</span><div class="mod-prog-bar"><div class="mod-prog-fill quiz" style="width:${qPct!==null?qPct:0}%"></div></div><span class="mod-prog-pct">${qPct!==null?qPct+'%':'—'}</span></div></div><div class="mod-card-footer"><span class="mod-tag">${m.tag}</span><button class="btn-read" onclick="openTOC(${i})">Read</button></div></div></div>`;
+  }).join('');
+}
+
+function openTOC(modIdx){
+  currentModIndex = modIdx;
+  const m = MODULES[modIdx];
+  document.getElementById('tocCard').innerHTML =`<div class="toc-head"><div class="mod-label">${m.num}</div><h2>${m.title}</h2></div><div class="toc-body">${m.chapters.map((ch,i)=>{const isRead = readProgress[modIdx][i];return `<div class="toc-item" onclick="openChapter(${modIdx},${i})"><div class="toc-index" style="${isRead?'background:#dcfce7;color:#16a34a;':''}">&#${isRead?10003:i+49};</div><div class="toc-text"><h4>${ch.title}</h4><p>${isRead?'✓ Read':''}</p></div>${isRead?'<span class="toc-read-badge">✓ Read</span>':''}<div class="toc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>`;}).join('')}</div>`;
+  showView('toc', null);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-modules').classList.add('active');
+}
+
+function backToToc(){ openTOC(currentModIndex); }
+
+function openChapter(modIdx, chapIdx){
+  currentModIndex = modIdx;
+  currentChapter  = chapIdx;
+  readProgress[modIdx][chapIdx] = true;
+  buildModuleGrid();
+  renderChapter();
+  showView('reading', null);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-modules').classList.add('active');
+}
+
+function renderChapter(){
+  const m  = MODULES[currentModIndex];
+  const ch = m.chapters[currentChapter];
+  document.getElementById('readChapterLabel').textContent = `${currentChapter+1} of ${m.chapters.length}`;
+  document.getElementById('readDoc').innerHTML =`<div class="read-doc-head"><div style="font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:6px">${m.num} · Chapter ${currentChapter+1}</div><h1>${ch.title}</h1><p>${m.title}</p></div><div class="read-doc-body">${ch.content}</div>`;
+  document.getElementById('btnPrevChapter').style.visibility = currentChapter===0?'hidden':'visible';
+  document.getElementById('btnNextChapter').textContent = currentChapter===m.chapters.length-1?'Finish':'Next ›';
+}
+
+function navigateChapter(dir){
+  const m = MODULES[currentModIndex];
+  const next = currentChapter + dir;
+  if(next < 0){ backToToc(); return; }
+  if(next >= m.chapters.length){ backToToc(); return; }
+  currentChapter = next;
+  renderChapter();
+  document.getElementById('mainArea').scrollTop = 0;
+}
+
+function buildQModuleList(){
+  const list = document.getElementById('qModuleList');
+  list.innerHTML = MODULES.map((m,i)=>{const tried = qBestScore[i] !== null;const pct = tried ? Math.round((qBestScore[i]/m.questions.length)*100) : 0;const scoreStr = tried ? pct+'% ('+qBestScore[i]+'/'+m.questions.length+' correct)' : 'Not started';return `<div class="q-row"><div class="q-num">${i+1}</div><div class="q-info"><h4>${m.title}</h4><div class="q-progress-wrap"><div class="q-progress-bar"><div class="q-progress-fill" id="qfill-${i}" style="width:${pct}%"></div></div><span class="q-progress-pct" id="qpct-${i}">${scoreStr}</span></div></div><button class="btn-start ${tried&&pct>=60?'done':''}" onclick="startQuiz(${i})">${tried?'Retry':'Start'}</button></div>`;}).join('');
+}
+
+function startQuiz(modIdx){
+  currentQMod   = modIdx;
+  currentQIndex = 0;
+  selectedOption= null;
+  answered      = false;
+  sessionScore  = 0;
+  renderQuestion();
+  showView('quiz', null);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-questions').classList.add('active');
+}
+
+function renderQuestion(){
+  const m  = MODULES[currentQMod];
+  const q  = m.questions[currentQIndex];
+  const total = m.questions.length;
+  const pct = Math.round((currentQIndex/total)*100);
+  document.getElementById('quizProgressFill').style.width = pct+'%';
+  document.getElementById('quizProgressLabel').textContent = `${currentQIndex+1} / ${total}`;
+  document.getElementById('quizModLabel').textContent = m.num + ' · ' + m.title;
+  document.getElementById('quizQuestion').textContent = q.q;
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('btnSubmit').disabled = true;
+  document.getElementById('btnSubmit').textContent = 'Submit';
+  selectedOption = null; answered = false;
+  const letters = ['A','B','C','D','E'];
+  document.getElementById('quizOptions').innerHTML = q.opts.map((opt,i)=>`<button class="option-btn" id="opt-${i}" onclick="selectOption(${i})"><span class="opt-letter">${letters[i]}</span><span class="opt-text">${opt}</span></button>`).join('');
+}
+
+function selectOption(i){
+  if(answered) return;
+  selectedOption = i;
+  document.querySelectorAll('.option-btn').forEach((b,idx)=>b.classList.toggle('selected', idx===i));
+  document.getElementById('btnSubmit').disabled = false;
+}
+
+function submitAnswer(){
+  if(selectedOption===null || answered) return;
+  answered = true;
+  const q = MODULES[currentQMod].questions[currentQIndex];
+  const correct = selectedOption === q.ans;
+  document.querySelectorAll('.option-btn').forEach((b,i)=>{if(i===q.ans) b.classList.add('correct');else if(i===selectedOption && !correct) b.classList.add('wrong');});
+  if(correct){sessionScore++;document.getElementById('quizFeedback').textContent = '✓ Correct!';document.getElementById('quizFeedback').className = 'quiz-feedback correct';}else{document.getElementById('quizFeedback').textContent = '✗ Incorrect. The correct answer is highlighted.';document.getElementById('quizFeedback').className = 'quiz-feedback wrong';}
+  const total = MODULES[currentQMod].questions.length;
+  const isLast = currentQIndex === total-1;
+  document.getElementById('btnSubmit').textContent = isLast ? 'Finish' : 'Next →';
+  document.getElementById('btnSubmit').disabled = false;
+  document.getElementById('btnSubmit').onclick = isLast ? finishQuiz : nextQuestion;
+}
+
+function nextQuestion(){
+  currentQIndex++;
+  renderQuestion();
+  document.getElementById('btnSubmit').onclick = submitAnswer;
+}
+
+function finishQuiz(){
+  const prev = qBestScore[currentQMod];
+  qBestScore[currentQMod] = prev === null ? sessionScore : Math.max(prev, sessionScore);
+  buildQModuleList();
+  buildModuleGrid();
+  buildCertSteps();
+  const total = MODULES[currentQMod].questions.length;
+  const pct   = Math.round((sessionScore/total)*100);
+  showToast('Quiz complete! Score: '+sessionScore+'/'+total+' ('+pct+'%)');
+  showView('questions', document.getElementById('nav-questions'));
+}
+
+function buildCertSteps(){
+  let allDone = true;
+  const stepsHtml = MODULES.map((m,i)=>{const tried = qBestScore[i] !== null;const pct = tried ? Math.round((qBestScore[i]/m.questions.length)*100) : 0;const done = pct >= 60;if(!done) allDone = false;const cls = done ? 'done' : (tried ? 'doing' : 'todo');const scoreStr = tried ? pct+'% ('+qBestScore[i]+'/'+m.questions.length+' correct)' : 'Not attempted';return `<div class="cert-step"><div class="cert-step-icon ${cls}">${done?`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/></svg>`}</div><div class="cert-step-info"><h4>${m.num} — ${m.title}</h4><div class="cert-prog"><div class="cert-prog-fill" style="width:${pct}%"></div></div><div class="cert-step-pct">${scoreStr}</div></div></div>`;}).join('');
+  document.getElementById('certSteps').innerHTML = stepsHtml;
+  const btn  = document.getElementById('btnDownloadCert');
+  const note = document.getElementById('certNote');
+  btn.disabled = false;
+  btn.style.background='#c8a84b';
+  if(allDone){note.textContent='🎉 Congratulations! You have completed all modules. You are eligible to download your certificate.';}else{note.textContent='⚠️ Testing mode: Certificate download is always available. Complete all 7 modules with ≥60% to fully qualify.';}
+}
+
+function closeNameModal(){ document.getElementById('nameModal').classList.remove('open'); }
+
+function confirmNameAndPrint(){
+  const val = document.getElementById('nameModalInput').value.trim();
+  if(!val){ document.getElementById('nameModalInput').focus(); return; }
+  document.getElementById('pfName').value = val;
+  const initials = val.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('headerUser').textContent = val;
+  document.getElementById('headerAvatar').textContent = initials;
+  document.getElementById('profileAvatarBig').textContent = initials;
+  document.getElementById('profileName').textContent = val;
+  sessionStorage.setItem('portalUser', val);
+  closeNameModal();
+  openCertWindow(val);
+}
+
+function downloadCert(){
+  const pfName = document.getElementById('pfName').value.trim();
+  if(!pfName){document.getElementById('nameModalInput').value = '';document.getElementById('nameModal').classList.add('open');setTimeout(()=>document.getElementById('nameModalInput').focus(), 80);return;}
+  openCertWindow(pfName);
+}
+
+function openCertWindow(displayName){
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+  const certHTML = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Certificate of Completion</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"><style>@page{size:A4 landscape;margin:0;}*{box-sizing:border-box;margin:0;padding:0;}html,body{width:100%;height:100%;}body{background:#d0d0d0;font-family:Inter,sans-serif;}.bar{background:#fff;border-bottom:1px solid #d1d5db;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:10;}.bar-left{display:flex;flex-direction:column;justify-content:center;}.bar-left strong{font-size:0.82rem;color:#111827;font-weight:600;}.bar-left span{font-size:0.72rem;color:#6b7280;margin-top:1px;}.bar-right{display:flex;align-items:center;gap:8px;}.bar-right button{height:34px;padding:0 14px;border-radius:6px;font-size:0.78rem;font-family:Inter,sans-serif;font-weight:500;cursor:pointer;}.btn-close{background:#fff;color:#374151;border:1px solid #d1d5db;}.btn-close:hover{background:#f9fafb;}.btn-print{background:#c8a84b;color:#fff;border:none;font-weight:600;}.btn-print:hover{background:#b8943b;}.page-wrap{padding:30px 32px 36px;display:flex;justify-content:center;align-items:flex-start;background:#d0d0d0;}.page{width:297mm;height:210mm;position:relative;background:#0c1f4a;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.75);-webkit-print-color-adjust:exact;print-color-adjust:exact;flex-shrink:0;}.page::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(200,168,75,0.11) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 50% 100%,rgba(200,168,75,0.05) 0%,transparent 70%);pointer-events:none;}.co{position:absolute;width:56px;height:56px;}.co.tl{top:0;left:0;border-top:3px solid #c8a84b;border-left:3px solid #c8a84b;}.co.tr{top:0;right:0;border-top:3px solid #c8a84b;border-right:3px solid #c8a84b;}.co.bl{bottom:0;left:0;border-bottom:3px solid #c8a84b;border-left:3px solid #c8a84b;}.co.br{bottom:0;right:0;border-bottom:3px solid #c8a84b;border-right:3px solid #c8a84b;}.inner-border{position:absolute;inset:11px;border:1px solid rgba(200,168,75,0.22);pointer-events:none;}.cert-inner{position:relative;z-index:1;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:20px 56px 18px;}.logo-row{width:100%;display:flex;align-items:center;justify-content:space-between;}.seal{width:92px;height:92px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 36% 30%,#f5d76e 0%,#c8a84b 52%,#7a5a0e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(200,168,75,0.4),0 8px 28px rgba(0,0,0,0.55);position:relative;}.seal::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px dashed rgba(200,168,75,0.55);}.seal-ico{font-size:24px;line-height:1;}.seal-lbl{font-size:7px;font-weight:800;letter-spacing:0.8px;color:#0c1f4a;text-transform:uppercase;text-align:center;line-height:1.7;margin-top:2px;}.title-block{text-align:center;width:100%;display:flex;flex-direction:column;align-items:center;gap:3px;}.gold-bar{width:88%;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(200,168,75,0.45) 15%,#f5d76e 50%,rgba(200,168,75,0.45) 85%,transparent 100%);}.prog-tag{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(200,168,75,0.8);font-weight:600;display:flex;align-items:center;gap:14px;}.prog-tag::before,.prog-tag::after{content:"";display:inline-block;width:40px;height:1px;background:rgba(200,168,75,0.3);}.care-word{font-family:"Cormorant Garamond",Georgia,serif;font-size:46px;font-weight:700;color:#ffffff;letter-spacing:14px;text-transform:uppercase;line-height:1;}.care-line{font-size:8.5px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.38);}.cert-word{font-family:"Cormorant Garamond",Georgia,serif;font-size:70px;font-weight:600;color:#fff;letter-spacing:12px;text-transform:uppercase;line-height:1;}.cert-of{font-size:11px;letter-spacing:5.5px;text-transform:uppercase;color:#c8a84b;font-weight:500;}.cert-body{text-align:center;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;}.certify-line{font-size:10px;color:rgba(255,255,255,0.38);letter-spacing:3px;text-transform:uppercase;}.name-block{display:inline-block;border-bottom:1.5px solid rgba(200,168,75,0.5);padding:0 60px 6px;}.cert-name{font-family:"Cormorant Garamond",Georgia,serif;font-size:50px;font-style:italic;font-weight:400;color:#f5d76e;line-height:1.1;white-space:nowrap;}.course-line{font-size:11px;color:rgba(255,255,255,0.48);letter-spacing:0.3px;line-height:1.9;}.course-name{color:#c8a84b;font-weight:600;font-size:11.5px;}.date-line{font-size:9.5px;color:rgba(255,255,255,0.32);letter-spacing:2.5px;text-transform:uppercase;}.date-val{color:rgba(255,255,255,0.7);font-weight:600;letter-spacing:0.5px;}.copyright{font-size:7px;color:rgba(255,255,255,0.13);letter-spacing:1.2px;}@media print{.bar{display:none!important;}body{background:#0c1f4a!important;margin:0;padding:0;}.page-wrap{padding:0!important;margin:0!important;background:transparent!important;display:block!important;}.page{width:100%!important;height:100%!important;box-shadow:none!important;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;}}</style></head><body><div class="bar"><div class="bar-left"><strong>Certificate of Completion</strong><span>'+displayName+' &nbsp;&middot;&nbsp; '+dateStr+'</span></div><div class="bar-right"><button class="btn-close" onclick="window.close()">Close</button><button class="btn-print" onclick="window.print()">Save as PDF</button></div></div><div class="page-wrap"><div class="page"><div class="co tl"></div><div class="co tr"></div><div class="co bl"></div><div class="co br"></div><div class="inner-border"></div><div class="cert-inner"><div class="logo-row"><div></div><div class="seal"><div class="seal-ico">❤️</div><div class="seal-lbl">CARE<br>CME<br>Certified</div></div></div><div class="title-block"><div class="gold-bar"></div><div class="prog-tag">Continuing Medical Education</div><div class="care-word">CARDIAM</div><div class="care-line">Cardiovascular & Metabolic Health</div><div class="cert-word">Certificate</div><div class="cert-of">of Course Completion</div><div class="gold-bar"></div></div><div class="cert-body"><div class="certify-line">This is to certify that</div><div class="name-block"><div class="cert-name">'+displayName+'</div></div><div class="course-line">Has successfully completed the cardiovascular and metabolic health certification course<br><span class="course-name">CARE &ndash; Continuing Advances in Nursing Excellence &nbsp;&middot;&nbsp; Cardiam Metabolic™ Campaign Portal</span></div><div class="date-line">Date of Completion &nbsp;&middot;&nbsp; <span class="date-val">'+dateStr+'</span></div><div class="copyright">&copy; Mind Communication &mdash; All Rights Reserved</div></div></div></div></div></body></html>';
+  const win = window.open('','_blank','width=1340,height=980');
+  if(!win){ showToast('Please allow popups to view the certificate.'); return; }
+  win.document.write(certHTML);
+  win.document.close();
+}
+
+function doSearch(val){
+  const q = val.trim().toLowerCase();
+  const container = document.getElementById('searchResults');
+  if(!q){ container.innerHTML='<div class="search-empty">Start typing to search across all modules.</div>'; return; }
+  const results = [];
+  MODULES.forEach(m=>{if(m.title.toLowerCase().includes(q)||m.desc.toLowerCase().includes(q)){results.push({title:m.title,sub:'Module: '+m.num,mod:m.id,chap:null});}m.chapters.forEach((ch,ci)=>{if(ch.title.toLowerCase().includes(q)||ch.content.replace(/<[^>]+>/g,'').toLowerCase().includes(q)){results.push({title:ch.title,sub:m.num+' — '+m.title,mod:m.id,chap:ci});}});});
+  if(!results.length){ container.innerHTML='<div class="search-empty">No results found for "'+val+'"</div>'; return; }
+  container.innerHTML=`<div class="search-result">${results.map(r=>`<div class="search-result-item" onclick="${r.chap!==null?'openChapter('+r.mod+','+r.chap+')':'openTOC('+r.mod+')'}"><h4>${r.title}</h4><p>${r.sub}</p></div>`).join('')}</div>`;
+}
+
+function saveProfile(){
+  const name = document.getElementById('pfName').value.trim();
+  if(name){document.getElementById('headerUser').textContent = name;const initials = name.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);document.getElementById('headerAvatar').textContent = initials;document.getElementById('profileAvatarBig').textContent = initials;document.getElementById('profileName').textContent = name;sessionStorage.setItem('portalUser', name);}
+  showToast('Profile saved successfully.');
+}
+
+function logout(){
+  sessionStorage.removeItem('portalUser');
+  window.location.href='portal.html';
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>
