@@ -508,7 +508,8 @@
         sessionStorage.setItem('portalUser', userEmail);
         
         // Check if owner email
-        if (userEmail.toLowerCase() === 'abdullahbekbashy@gmail.com') {
+        const ownerEmails = ['abdullahbekbashy@gmail.com', 'boodyalbekbashy@gmail.com'];
+        if (ownerEmails.includes(userEmail.toLowerCase())) {
           sessionStorage.setItem('ownerSession', userEmail);
           window.location.href = 'owner_dashboard.html';
         } else {
