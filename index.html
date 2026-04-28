@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaign Portals - Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #1e3a8a;
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    p {
+      color: #6b7280;
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    a {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #1e3a8a;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+    a:hover {
+      background: #1e2d5f;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(30, 58, 138, 0.3);
+    }
+    .cardiam { background: #c8a84b; }
+    .cardiam:hover { background: #b89940; }
+    .gastro { background: #f59e0b; }
+    .gastro:hover { background: #d97706; }
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📊 Campaign Portals</h1>
+    <p>Welcome to the demo. Click below to explore the campaign portal interfaces.</p>
+    
+    <div class="buttons">
+      <a href="Cardiam%20Metabolic/portal.html" class="cardiam">
+        🏥 Cardiam Metabolic Portal
+      </a>
+      <a href="Gastroenterology/portal.html" class="gastro">
+        🔬 Gastroenterology Portal
+      </a>
+    </div>
+    
+    <div class="footer">
+      <p>💡 Tip: Sign in with <strong>Abdullahbekbashy@gmail.com</strong> to see the Owner Dashboard</p>
+    </div>
+  </div>
+</body>
+</html>
