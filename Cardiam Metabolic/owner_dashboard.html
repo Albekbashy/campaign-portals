@@ -37,6 +37,21 @@
       min-height: 100vh;
     }
 
+    body::before {
+      content: 'CMbriX';
+      position: fixed;
+      font-size: 5rem;
+      font-weight: 900;
+      color: rgba(30, 58, 138, 0.04);
+      letter-spacing: 6px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-20deg);
+      pointer-events: none;
+      z-index: 0;
+      white-space: nowrap;
+    }
+
     /* ════ HEADER ════ */
     .header {
       background: var(--card);
@@ -61,8 +76,8 @@
     }
 
     .header-logos img {
-      height: 48px;
-      max-width: 110px;
+      height: 70px;
+      max-width: 140px;
       object-fit: contain;
       flex-shrink: 0;
     }
@@ -70,11 +85,14 @@
     .header-center {
       flex: 1;
       text-align: center;
-      font-size: 0.78rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 0.9rem;
       font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: #8a96b0;
+      letter-spacing: 0.5px;
+      color: #6b7280;
     }
 
     .header-right {
@@ -358,6 +376,30 @@
         grid-template-columns: 1fr;
       }
     }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes spinAndPulse {
+      0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: rotate(180deg) scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 0.8;
+      }
+    }
   </style>
 </head>
 <body>
@@ -365,17 +407,12 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-logos">
-      <img src="Atorlip logo_page-0001.png" alt="Atorlip">
-      <img src="CMbrix logo p_page-0001.png" alt="CMbrix">
-      <img src="Emijan M logo_page-0001.png" alt="Emijan M">
-      <img src="Emiros logo_page-0001.png" alt="Emiros">
-      <img src="globalpharma logo_page-0001.png" alt="Global Pharma">
-      <img src="Glovadip logo_page-0001.png" alt="Glovadip">
-      <img src="Ruset logo _page-0001.png" alt="Ruset">
-      <img src="Sartan logo_page-0001.png" alt="Sartan">
-      <img src="MD_Logo.png" alt="MD Logo" style="height: 44px;">
+      <img src="globalpharma logo_page-0001.png" alt="GlobalPharma" style="width:180px;">
     </div>
-    <div class="header-center">Cardiam Metabolic™ Owner Dashboard</div>
+    <div class="header-center">
+      <img src="CMbrix logo p_page-0001.png" alt="CMbrix" style="height:40px; width:auto; animation: spinAndPulse 3s ease-in-out infinite;">
+      <span style="font-weight:700; font-size:0.9rem; color:#6b7280; letter-spacing:0.5px;">CMbriX Owner Dashboard</span>
+    </div>
     <div class="header-right">
       <span class="header-user" id="headerUser">Owner</span>
       <div class="header-avatar" id="headerAvatar">O</div>
@@ -385,8 +422,17 @@
 
   <!-- MAIN CONTENT -->
   <div class="main">
-    <h1 class="dashboard-title">Owner's Dashboard Overview</h1>
-    <p class="dashboard-subtitle">Real-time analytics and user engagement metrics</p>
+    <!-- DESIGN COMMENTS:
+         • Header: GlobalPharma + CMbriX logos only (left), title center, user profile right
+         • Color scheme: Primary #1e3a8a, Secondary #3b82f6, Accent #c8a84b
+         • CMbriX watermark: 5rem, rgba(30,58,138,0.05), rotate -20deg
+         • Stats grid: 3 cards showing key metrics
+         • Module table: Shows 6 CMbriX modules with engagement %
+         • Feedback form: Collects delegate feedback with module + type dropdowns
+         • Responsive design: Grid layouts collapse on mobile
+    -->
+    <h1 class="dashboard-title">CMbriX Owner's Dashboard Overview</h1>
+    <p class="dashboard-subtitle">Real-time analytics and delegate engagement metrics</p>
 
     <!-- STATS CARDS -->
     <div class="stats-grid">
@@ -427,7 +473,7 @@
           </thead>
           <tbody id="moduleTable">
             <tr>
-              <td>Module 01: Esophageal Disorders</td>
+              <td>Module 01: Cardiovascular Risk & Hypertension</td>
               <td>2,210</td>
               <td>
                 <div class="progress-cell">
@@ -439,7 +485,7 @@
               </td>
             </tr>
             <tr>
-              <td>Module 02: Acid Diseases</td>
+              <td>Module 02: Type 2 Diabetes Mellitus</td>
               <td>2,100</td>
               <td>
                 <div class="progress-cell">
@@ -451,7 +497,7 @@
               </td>
             </tr>
             <tr>
-              <td>Module 03: GI Diseases in Pregnancy</td>
+              <td>Module 03: Dyslipidemia Management</td>
               <td>1,980</td>
               <td>
                 <div class="progress-cell">
@@ -463,7 +509,7 @@
               </td>
             </tr>
             <tr>
-              <td>Module 04: Diarrhea</td>
+              <td>Module 04: Obesity & Weight Management</td>
               <td>2,050</td>
               <td>
                 <div class="progress-cell">
@@ -475,7 +521,7 @@
               </td>
             </tr>
             <tr>
-              <td>Module 05: GI Motility</td>
+              <td>Module 05: Chronic Kidney Disease</td>
               <td>1,890</td>
               <td>
                 <div class="progress-cell">
@@ -487,7 +533,7 @@
               </td>
             </tr>
             <tr>
-              <td>Module 06: GI Bleeding</td>
+              <td>Module 06: Atherosclerosis & Acute Coronary</td>
               <td>1,750</td>
               <td>
                 <div class="progress-cell">
@@ -498,21 +544,53 @@
                 </div>
               </td>
             </tr>
-            <tr>
-              <td>Module 07: Nutrition</td>
-              <td>1,600</td>
-              <td>
-                <div class="progress-cell">
-                  <div class="progress-bar">
-                    <div class="progress-fill" style="width: 64%"></div>
-                  </div>
-                  <div class="progress-label">64%</div>
-                </div>
-              </td>
-            </tr>
+          </tbody>
           </tbody>
         </table>
       </div>
+    </div>
+
+    <!-- FEEDBACK SECTION -->
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Delegate Feedback</h2>
+        <button class="export-btn" id="feedbackBtn">View All Feedback</button>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <p style="font-size: 0.95rem; color: #6b7280; margin-bottom: 16px;">Collect feedback and comments from delegates to improve the learning experience.</p>
+      </div>
+      <form id="feedbackForm" style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="position: relative;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 8px;">Feedback from Delegate</label>
+          <textarea id="feedbackText" placeholder="Enter your feedback, suggestions, or comments here..." style="width: 100%; min-height: 120px; padding: 12px; border: 1px solid #dde3ed; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #1a2540; resize: vertical; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#1e3a8a'" onblur="this.style.borderColor='#dde3ed'"></textarea>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 8px;">Module</label>
+            <select id="feedbackModule" style="width: 100%; height: 42px; padding: 0 12px; border: 1px solid #dde3ed; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #1a2540; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#1e3a8a'" onblur="this.style.borderColor='#dde3ed'">
+              <option value="">Select Module...</option>
+              <option value="Module 01">Module 01: Cardiovascular Risk & Hypertension</option>
+              <option value="Module 02">Module 02: Type 2 Diabetes Mellitus</option>
+              <option value="Module 03">Module 03: Dyslipidemia Management</option>
+              <option value="Module 04">Module 04: Obesity & Weight Management</option>
+              <option value="Module 05">Module 05: Chronic Kidney Disease</option>
+              <option value="Module 06">Module 06: Atherosclerosis & ACS</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 8px;">Feedback Type</label>
+            <select id="feedbackType" style="width: 100%; height: 42px; padding: 0 12px; border: 1px solid #dde3ed; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #1a2540; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#1e3a8a'" onblur="this.style.borderColor='#dde3ed'">
+              <option value="General">General Feedback</option>
+              <option value="Suggestion">Suggestion</option>
+              <option value="Issue">Issue/Bug Report</option>
+              <option value="Compliment">Compliment</option>
+              <option value="Question">Question</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" style="padding: 10px 24px; background: #1e3a8a; color: #fff; font-size: 0.85rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#162d6b'" onmouseout="this.style.background='#1e3a8a'">Submit Feedback</button>
+      </form>
+      <div id="feedbackMessage" style="display: none; margin-top: 16px; padding: 12px 16px; background: #dcfce7; border: 1px solid #86efac; border-radius: 6px; color: #166534; font-size: 0.95rem;"></div>
     </div>
 
     <!-- CHARTS SECTION -->
@@ -540,9 +618,16 @@
       window.location.href = 'portal.html';
     }
 
-    // Update avatar
+    // Extract username from email (text before @)
+    const userName = ownerEmail ? ownerEmail.split('@')[0] : 'Owner';
+    const firstLetter = userName.charAt(0).toUpperCase();
+
+    // Update header with username
+    document.getElementById('headerUser').textContent = userName;
+    
+    // Update avatar with first letter
     const avatar = document.getElementById('headerAvatar');
-    avatar.textContent = 'O';
+    avatar.textContent = firstLetter;
 
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -553,6 +638,37 @@
     // Export Data
     document.getElementById('exportBtn').addEventListener('click', () => {
       alert('Export functionality would export data to CSV/Excel format');
+    });
+
+    // Feedback Form Handler
+    document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const feedbackText = document.getElementById('feedbackText').value.trim();
+      const feedbackModule = document.getElementById('feedbackModule').value;
+      const feedbackType = document.getElementById('feedbackType').value;
+      
+      if (!feedbackText) {
+        alert('Please enter your feedback.');
+        return;
+      }
+      
+      // Show success message
+      const msgEl = document.getElementById('feedbackMessage');
+      msgEl.textContent = '✓ Thank you! Your feedback has been submitted successfully.';
+      msgEl.style.display = 'block';
+      
+      // Reset form
+      document.getElementById('feedbackForm').reset();
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        msgEl.style.display = 'none';
+      }, 5000);
+    });
+
+    // View All Feedback
+    document.getElementById('feedbackBtn').addEventListener('click', () => {
+      alert('Feedback management portal - would show all collected feedback from delegates');
     });
 
     // Charts

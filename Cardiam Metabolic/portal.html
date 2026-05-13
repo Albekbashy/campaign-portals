@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cardiam Metabolic™ Campaign Portal</title>
+<!-- DESIGN: Landing page (3-sec animation, slideInUp+bounce) | Sign-in card (Access to CMbriX text) | Logos (GlobalPharma + MD only) | Watermark (CMbriX 5rem @-20deg) -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 
@@ -56,6 +57,92 @@
     z-index: 0;
   }
 
+  /* ── LANDING PAGE ── */
+  .landing-page {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f2260 50%, #1a2d5a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    opacity: 1;
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+    visibility: visible;
+  }
+
+  .landing-page.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .landing-content {
+    text-align: center;
+    z-index: 1;
+  }
+
+  .landing-welcome {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    animation: slideInUp 1s ease-out 0.3s both;
+  }
+
+  .landing-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 40px;
+    animation: slideInUp 1s ease-out 0.6s both;
+  }
+
+  .landing-arrow {
+    font-size: 2rem;
+    color: #c8a84b;
+    animation: bounce 2s infinite 1s;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .landing-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(200, 168, 75, 0.15) 0%, transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
   /* ── top accent line ── */
   .top-bar {
     position: fixed;
@@ -76,6 +163,21 @@
     padding: 0 24px;
     padding-top: 80px;
     padding-bottom: 80px;
+  }
+
+  .wrapper::before {
+    content: 'CMbriX';
+    position: fixed;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(30, 58, 138, 0.05);
+    letter-spacing: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
   }
 
   /* ── logos section ── */
@@ -572,14 +674,33 @@
 
   <div class="top-bar"></div>
 
+  <!-- LANDING PAGE -->
+  <div class="landing-page" id="landingPage">
+    <div class="landing-content">
+      <h1 class="landing-welcome">Welcome to<br>CMbriX</h1>
+      <p class="landing-subtitle">Campaign Portal</p>
+      <div class="landing-arrow">↓</div>
+    </div>
+  </div>
+
   <div class="wrapper">
+
+    <!-- Logo Section - Fixed Layout -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; padding:50px 40px; margin-bottom:60px; background:#fff; border:1px solid #e5e7eb; border-radius:12px; align-items:center;">
+      <div style="display:flex; align-items:center; justify-content:center; min-height:160px;">
+        <img src="globalpharma logo_page-0001.png" alt="GlobalPharma" style="height:130px; width:auto; object-fit:contain;">
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; min-height:160px;">
+        <img src="Emiros logo_page-0001.png" alt="Emiros" style="height:130px; width:auto; object-fit:contain;">
+      </div>
+    </div>
 
     <!-- Card -->
     <div class="card">
 
       <div class="card-head">
         <h1>Sign in</h1>
-        <p>Access the Cardiam Metabolic™ Campaign Portal</p>
+        <p>Access to CMbriX</p>
       </div>
 
       <form id="loginForm" novalidate>
@@ -652,40 +773,6 @@
 
     </div>
 
-    <!-- All Logos Carousel -->
-    <div class="logos-section-title">Our Pharmaceutical Partners</div>
-    <div class="logos-carousel">
-      <div class="carousel-scroll">
-        <div class="logo-card">
-          <img src="globalpharma logo_page-0001.png" alt="GlobalPharma">
-        </div>
-        <div class="logo-card">
-          <img src="CMbrix logo p_page-0001.png" alt="CMbrix">
-        </div>
-        <div class="logo-card">
-          <img src="Atorlip logo_page-0001.png" alt="Atorlip">
-        </div>
-        <div class="logo-card">
-          <img src="Emiros logo_page-0001.png" alt="Emiros">
-        </div>
-        <div class="logo-card">
-          <img src="Glovadip logo_page-0001.png" alt="Glovadip">
-        </div>
-        <div class="logo-card">
-          <img src="Emijan M logo_page-0001.png" alt="Emijan M">
-        </div>
-        <div class="logo-card">
-          <img src="Ruset logo _page-0001.png" alt="Ruset">
-        </div>
-        <div class="logo-card">
-          <img src="Sartan logo_page-0001.png" alt="Sartan">
-        </div>
-        <div class="logo-card">
-          <img src="MD_Logo.png" alt="MD Logo">
-        </div>
-      </div>
-    </div>
-
     <!-- Footer -->
     <p class="footer">
       &copy; <span id="yr"></span> Mind Communication. All rights reserved.
@@ -694,6 +781,16 @@
   </div>
 
   <script>
+    // Landing page animation
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const landing = document.getElementById('landingPage');
+        if (landing) {
+          landing.classList.add('hidden');
+        }
+      }, 3000);
+    });
+
     // year
     document.getElementById('yr').textContent = new Date().getFullYear();
 

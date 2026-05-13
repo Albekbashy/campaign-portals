@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cardiam Metabolic™ Campaign Portal</title>
+<title>CMbriX Campaign Portal</title>
+<!-- DESIGN: Header (GlobalPharma+CMbrix logos, grid icon, title) | Sidebar (8 nav buttons) | Main (6 modules with product logos, animated header, feedback form) | Watermark (CMbriX 6rem @-15deg) -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -54,8 +55,8 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
 }
 
 .header-logos img{
-  height:52px;
-  max-width:105px;
+  height:75px;
+  max-width:150px;
   object-fit:contain;
   flex-shrink:0;
   transition:transform 0.2s, filter 0.2s;
@@ -80,6 +81,36 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
   text-transform:uppercase;
   color:#8a96b0;
   white-space:nowrap;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+
+.animated-logo {
+  height:40px;
+  display:inline-block;
+  animation:slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity:0;
+    transform:translateX(-20px);
+  }
+  to {
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
 }
 
 .header-right{
@@ -145,7 +176,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
 }
 
 .main::before{
-  content:'CARDIAM METABOLIC';
+  content:'CMbriX';
   position:fixed;
   font-size:6rem;font-weight:900;
   color:rgba(30,58,138,0.04);
@@ -191,6 +222,62 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
 }
 
 .mod-card-body{padding:20px 22px 18px;}
+
+.mod-logos{
+  display:flex;
+  gap:16px;
+  margin-bottom:24px;
+  align-items:center;
+  flex-wrap:wrap;
+  min-height:70px;
+  justify-content:center;
+}
+
+.mod-logos img{
+  height:56px;
+  max-width:140px;
+  object-fit:contain;
+  opacity:0;
+  animation:fadeInScale 0.6s ease-out forwards;
+}
+}
+
+.product-logo{
+  height:90px;
+  max-width:180px;
+  object-fit:contain;
+  opacity:0;
+  animation:fadeInScale 0.6s ease-out forwards;
+  display:flex;
+  align-items:center;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity:0;
+    transform:scale(0.8);
+  }
+  to {
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+@keyframes spinAndPulse {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.8;
+  }
+}
+
 
 .mod-num{font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8a96b0;margin-bottom:8px;}
 
@@ -684,17 +771,12 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
   <!-- ══ HEADER ══ -->
   <header class="header">
     <div class="header-logos">
-      <img src="globalpharma logo_page-0001.png" alt="GlobalPharma" title="GlobalPharma">
-      <img src="CMbrix logo p_page-0001.png" alt="CMbrix" title="CMbrix">
-      <img src="Atorlip logo_page-0001.png" alt="Atorlip" title="Atorlip">
-      <img src="Emiros logo_page-0001.png" alt="Emiros" title="Emiros">
-      <img src="Glovadip logo_page-0001.png" alt="Glovadip" title="Glovadip">
-      <img src="Emijan M logo_page-0001.png" alt="Emijan M" title="Emijan M">
-      <img src="Ruset logo _page-0001.png" alt="Ruset" title="Ruset">
-      <img src="Sartan logo_page-0001.png" alt="Sartan" title="Sartan">
-      <img src="MD_Logo.png" alt="MD Logo" title="MD Logo" class="logo-mc">
+      <img src="globalpharma logo_page-0001.png" alt="GlobalPharma" title="GlobalPharma" style="width:180px;">
     </div>
-    <div class="header-center">Cardiam Metabolic™ Campaign Portal</div>
+    <div class="header-center">
+      <img src="CMbrix logo p_page-0001.png" alt="CMbrix" style="height:48px; width:auto; animation: spinAndPulse 3s ease-in-out infinite;">
+      <span style="font-weight:700; font-size:1rem; color:#1e3a8a; letter-spacing:0.5px;">CMbriX Campaign Portal</span>
+    </div>
     <div class="header-right">
       <span class="header-user" id="headerUser">User</span>
       <div class="header-avatar" id="headerAvatar">U</div>
@@ -726,6 +808,10 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Profile
       </button>
+      <button class="nav-item" onclick="showView('feedback',this)" id="nav-feedback">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Feedback
+      </button>
       <button class="nav-item signout" onclick="logout()">
         <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Sign Out
@@ -740,7 +826,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
       <div class="view active" id="view-modules">
         <div class="page-topbar">
           <h2>Learning Modules</h2>
-          <span>7 modules available — click a module to begin reading</span>
+          <span>6 modules available — click a module to begin reading</span>
         </div>
         <div class="modules-grid" id="moduleGrid"></div>
       </div>
@@ -826,13 +912,13 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
           <div class="cert-card">
             <div class="cert-head">
               <h2>CME Certificate Path</h2>
-              <p>Track your progress toward earning the Cardiam Metabolic™ Campaign Certificate</p>
+              <p>Track your progress toward earning the CMbriX Campaign Certificate</p>
             </div>
             <div class="cert-body">
               <div class="cert-steps" id="certSteps"></div>
               <div class="cert-eligibility">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <p id="certNote">Complete all 7 modules and pass all question sets to become eligible for your certificate.</p>
+                <p id="certNote">Complete all 6 modules and pass all question sets to become eligible for your certificate.</p>
               </div>
               <button class="btn-cert" id="btnDownloadCert" disabled onclick="downloadCert()">Download Certificate</button>
             </div>
@@ -859,7 +945,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
       <div class="view" id="view-profile">
         <div class="page-topbar">
           <h2>My Profile</h2>
-          <span>Your account details</span>
+          <span>Your account details — Optional during learning, required for certificate download</span>
         </div>
         <div class="profile-wrap">
           <div class="profile-card">
@@ -867,7 +953,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
               <div class="profile-avatar-big" id="profileAvatarBig">U</div>
               <div class="profile-head-info">
                 <h2 id="profileName">User</h2>
-                <p>Portal Member — Cardiam Metabolic™ Campaign</p>
+                <p>Portal Member — CMbriX Campaign</p>
               </div>
             </div>
             <div class="profile-body">
@@ -876,6 +962,61 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
               <div class="pfield"><label>Specialty</label><input type="text" id="pfSpec" placeholder="e.g. Cardiology, Endocrinology"></div>
               <div class="pfield"><label>Institution</label><input type="text" id="pfInst" placeholder="e.g. King Abdulaziz University Hospital"></div>
               <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ▸ FEEDBACK -->
+      <div class="view" id="view-feedback">
+        <div class="page-topbar">
+          <h2>Send Feedback</h2>
+          <span>Help us improve your learning experience</span>
+        </div>
+        <div class="profile-wrap">
+          <div class="profile-card">
+            <div class="profile-head" style="background:linear-gradient(135deg,#0f2260,#1e3a8a);">
+              <div style="color:#fff; flex:1;">
+                <h2 style="color:#fff; margin:0 0 6px;">Your Feedback</h2>
+                <p style="color:rgba(255,255,255,0.6); margin:0;">Share your experience with our learning modules</p>
+              </div>
+            </div>
+            <div class="profile-body">
+              <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                <div class="pfield">
+                  <label>Feedback Message *</label>
+                  <textarea id="feedbackMsg" placeholder="Please share your thoughts, suggestions, or any issues you encountered..." style="width:100%; min-height:100px; padding:10px; border:1px solid #dde3ed; border-radius:6px; font-family:'Inter',sans-serif; resize:vertical; outline:none;" required></textarea>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                  <div class="pfield">
+                    <label>Module *</label>
+                    <select id="feedbackMod" style="width:100%; height:42px; padding:0 10px; border:1px solid #dde3ed; border-radius:6px; font-family:'Inter',sans-serif; outline:none;" required>
+                      <option value="">Select a module...</option>
+                      <option value="Module 01">Module 01: Cardiovascular Risk & Hypertension</option>
+                      <option value="Module 02">Module 02: Type 2 Diabetes</option>
+                      <option value="Module 03">Module 03: Dyslipidemia Management</option>
+                      <option value="Module 04">Module 04: Obesity & Weight Management</option>
+                      <option value="Module 05">Module 05: Chronic Kidney Disease</option>
+                      <option value="Module 06">Module 06: Atherosclerosis & ACS</option>
+                    </select>
+                  </div>
+                  <div class="pfield">
+                    <label>Feedback Type *</label>
+                    <select id="feedbackType" style="width:100%; height:42px; padding:0 10px; border:1px solid #dde3ed; border-radius:6px; font-family:'Inter',sans-serif; outline:none;" required>
+                      <option value="">Select type...</option>
+                      <option value="Suggestion">Suggestion</option>
+                      <option value="Issue">Issue/Bug Report</option>
+                      <option value="Compliment">Compliment</option>
+                      <option value="Question">Question</option>
+                      <option value="General">General Feedback</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="btn-save" style="background:#1e3a8a; width:auto;">Submit Feedback</button>
+              </form>
+              <div id="feedbackSuccess" style="display:none; margin-top:16px; padding:12px 16px; background:#dcfce7; border:1px solid #86efac; border-radius:6px; color:#166534; font-size:0.9rem;">
+                ✓ Thank you! Your feedback has been submitted successfully.
+              </div>
             </div>
           </div>
         </div>
@@ -903,11 +1044,12 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;}
 
 <script>
 /* ════════════════════════════════════
-   DATA - CARDIAM METABOLIC MODULES
+   DATA - CMBRIX MODULES
 ════════════════════════════════════ */
 const MODULES = [
   {
-    id:0, num:'Module 01', tag:'Cardiology',
+    id:0, num:'Module 01', tag:'Cardiology', 
+    logos:['Glovadip logo_page-0001.png', 'Glovadip logo_page-0001.png', 'Sartan logo_page-0001.png'],
     title:'Cardiovascular Risk & Hypertension Management',
     desc:'Assessment of CV risk factors, hypertension pathophysiology, antihypertensive pharmacotherapy, resistant hypertension and lifestyle modification strategies.',
     chapters:[
@@ -916,7 +1058,7 @@ const MODULES = [
         content:`
           <h3>Introduction to CV Risk</h3>
           <p>Cardiovascular disease remains the leading cause of morbidity and mortality globally. Accurate risk stratification is essential for guiding preventive therapy and intervention intensity.</p>
-          <div class="highlight-box"><p><strong>Key Point:</strong> The Cardiam Metabolic™ platform provides comprehensive risk assessment tools integrating multiple biomarkers, imaging modalities, and clinical parameters to optimize patient outcomes.</p></div>
+          <div class="highlight-box"><p><strong>Key Point:</strong> The CMbriX platform provides comprehensive risk assessment tools integrating multiple biomarkers, imaging modalities, and clinical parameters to optimize patient outcomes.</p></div>
           <h3>Risk Assessment Tools</h3>
           <ul><li>Framingham Risk Score: predicts 10-year risk of coronary heart disease</li><li>ASCVD Risk Estimator: incorporates non-fatal and fatal events</li><li>CAC scoring: coronary artery calcium quantification</li><li>Carotid IMT: subclinical atherosclerosis marker</li></ul>
           <h3>Major CV Risk Factors</h3>
@@ -955,6 +1097,7 @@ const MODULES = [
   },
   {
     id:1, num:'Module 02', tag:'Metabolic',
+    logos:['Emijan M logo_page-0001.png'],
     title:'Type 2 Diabetes Mellitus: Pathophysiology & Diagnosis',
     desc:'Insulin resistance, beta cell dysfunction, screening criteria, diagnostic tests, OGTT, HbA1c and cardiovascular risk in diabetes.',
     chapters:[
@@ -990,6 +1133,7 @@ const MODULES = [
   },
   {
     id:2, num:'Module 03', tag:'Lipids',
+    logos:['Atorlip logo_page-0001.png', 'Ruset logo _page-0001.png', 'Emiros logo_page-0001.png'],
     title:'Dyslipidemia Management & Cholesterol Targets',
     desc:'Lipid metabolism, LDL-C pathophysiology, statin therapy, non-statin agents, PCSK9 inhibitors and novel lipid-lowering therapeutics.',
     chapters:[
@@ -1023,6 +1167,7 @@ const MODULES = [
   },
   {
     id:3, num:'Module 04', tag:'Obesity',
+    logos:['Sartan logo_page-0001.png'],
     title:'Obesity & Weight Management Strategies',
     desc:'BMI classification, metabolic syndrome, lifestyle intervention, pharmacotherapy (GLP-1 RAs, tirzepatide), bariatric surgery outcomes.',
     chapters:[
@@ -1055,6 +1200,7 @@ const MODULES = [
   },
   {
     id:4, num:'Module 05', tag:'CKD',
+    logos:['Sartan logo_page-0001.png'],
     title:'Chronic Kidney Disease & RAAS Inhibition',
     desc:'CKD staging, eGFR assessment, RAAS inhibition efficacy, SGLT2 inhibitors, finerenone and renoprotection strategies.',
     chapters:[
@@ -1088,6 +1234,7 @@ const MODULES = [
   },
   {
     id:5, num:'Module 06', tag:'Atherosclerosis',
+    logos:['Atorlip logo_page-0001.png', 'Glovadip logo_page-0001.png'],
     title:'Atherosclerosis & Acute Coronary Syndrome',
     desc:'Atherosclerotic plaque morphology, plaque rupture, ACS pathophysiology, NSTEMI vs STEMI, troponin biomarkers and risk stratification.',
     chapters:[
@@ -1118,39 +1265,6 @@ const MODULES = [
       {q:'Troponin elevation typically becomes detectable how many hours after MI?',opts:['0-2 hours','2-4 hours','4-12 hours','>24 hours'],ans:2},
       {q:'Which medication class provides both antiplatelet and anti-inflammatory benefits in ACS?',opts:['ACE inhibitors','Aspirin','Beta-blockers','Nitrates'],ans:1}
     ]
-  },
-  {
-    id:6, num:'Module 07', tag:'Prevention',
-    title:'Cardiovascular & Metabolic Prevention Strategies',
-    desc:'Primary & secondary prevention, lifestyle medicine, exercise prescription, Mediterranean diet, smoking cessation and long-term CV risk reduction.',
-    chapters:[
-      {
-        title:'Primary Prevention & Lifestyle Medicine',
-        content:`
-          <h3>Pillars of CV Prevention</h3>
-          <ul><li>Smoking cessation: reduces MI risk by 50% within 1 year</li><li>Mediterranean diet: reduces CV events by 30% (PREDIMED trial)</li><li>Physical activity: ≥150 min moderate-intensity or ≥75 min vigorous weekly</li><li>Weight management: 5-10% loss improves multiple risk factors</li></ul>
-          <h3>Stress Management & Sleep</h3>
-          <p>Chronic stress increases CV events. Adequate sleep (7-9 hours) is protective. Sleep apnea screening important in high-risk populations.</p>
-          <div class="highlight-box"><p><strong>Evidence-Based:</strong> Comprehensive lifestyle intervention approaches reduce CV events more effectively than single interventions alone.</p></div>`
-      },
-      {
-        title:'Secondary Prevention & Long-term Management',
-        content:`
-          <h3>Post-MI Risk Reduction</h3>
-          <ul><li>Dual antiplatelet therapy: aspirin + P2Y12 inhibitor duration based on risk</li><li>High-intensity statin therapy: target LDL <55 mg/dL</li><li>RAAS inhibition: ACE inhibitor or ARB in all post-MI patients</li><li>Beta-blockers: beneficial especially with reduced EF</li></ul>
-          <h3>Cardiac Rehabilitation</h3>
-          <p>Supervised exercise program, nutritional counseling, smoking cessation support, psychological assessment. Reduces mortality by 25-30% post-MI.</p>
-          <h3>Long-term Monitoring</h3>
-          <p>Regular follow-up, medication adherence assessment, repeat lipid panels, ECG/imaging as indicated, comorbidity management (diabetes, HTN, CKD).</p>`
-      }
-    ],
-    questions:[
-      {q:'By what percentage does smoking cessation reduce MI risk within 1 year?',opts:['10-20%','30-40%','50%','70%'],ans:2},
-      {q:'What are the recommended minutes of aerobic exercise weekly for CV prevention?',opts:['≥75 min vigorous or ≥150 min moderate','≥100 min vigorous or ≥200 min moderate','≥50 min daily vigorous','Exercise frequency not evidence-based'],ans:0},
-      {q:'The PREDIMED trial demonstrated what benefit of Mediterranean diet?',opts:['10% CV event reduction','20% CV event reduction','30% CV event reduction','No significant benefit'],ans:2},
-      {q:'What is the recommended post-MI LDL-C target with high-intensity statin therapy?',opts:['<100 mg/dL','<70 mg/dL','<55 mg/dL','<40 mg/dL'],ans:2},
-      {q:'Cardiac rehabilitation post-MI reduces mortality by approximately:',opts:['5-10%','15-20%','25-30%','40-50%'],ans:2}
-    ]
   }
 ];
 
@@ -1169,8 +1283,9 @@ let   sessionScore = 0;
 
 (function init(){
   const user = sessionStorage.getItem('portalUser') || 'User';
+  const userName = user.split('@')[0] || 'User';
   const initials = user.split(/[\s.@_-]+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2) || user[0].toUpperCase();
-  document.getElementById('headerUser').textContent   = user;
+  document.getElementById('headerUser').textContent   = userName;
   document.getElementById('headerAvatar').textContent = initials;
   document.getElementById('profileAvatarBig').textContent = initials;
   document.getElementById('profileName').textContent  = user;
@@ -1196,14 +1311,38 @@ function buildModuleGrid(){
     const readChaps  = readProgress[i].filter(Boolean).length;
     const readPct    = Math.round((readChaps/totalChaps)*100);
     const qPct       = qBestScore[i]!==null ? Math.round((qBestScore[i]/m.questions.length)*100) : null;
-    return `<div class="mod-card"><div class="mod-card-top"></div><div class="mod-card-body"><div class="mod-num">${m.num}</div><div class="mod-title">${m.title}</div><div class="mod-desc">${m.desc}</div><div class="mod-progress"><div class="mod-prog-row"><span class="mod-prog-label">Reading</span><div class="mod-prog-bar"><div class="mod-prog-fill read" style="width:${readPct}%"></div></div><span class="mod-prog-pct">${readPct}%</span></div><div class="mod-prog-row"><span class="mod-prog-label">Questions</span><div class="mod-prog-bar"><div class="mod-prog-fill quiz" style="width:${qPct!==null?qPct:0}%"></div></div><span class="mod-prog-pct">${qPct!==null?qPct+'%':'—'}</span></div></div><div class="mod-card-footer"><span class="mod-tag">${m.tag}</span><button class="btn-read" onclick="openTOC(${i})">Read</button></div></div></div>`;
+    const logosHtml  = m.logos ? `<div class="mod-logos">${m.logos.map((logo,lidx)=>{
+      const isGlovadipFirst = logo === 'Glovadip logo_page-0001.png' && lidx === 0;
+      const isGlovadipSecond = logo === 'Glovadip logo_page-0001.png' && lidx === 1;
+      if(isGlovadipFirst){
+        return `<img src="Glovadip-Alone.png" alt="Glovadip" class="product-logo" style="animation-delay:${lidx*0.2}s;">`;
+      }
+      if(isGlovadipSecond){
+        return `<img src="Glovadip-HCP.png" alt="Glovadip HCP" class="product-logo" style="animation-delay:${lidx*0.2}s;">`;
+      }
+      return `<img src="${logo}" alt="Product Logo" class="product-logo" style="animation-delay:${lidx*0.2}s">`;
+    }).join('')}</div>` : '';
+    return `<div class="mod-card"><div class="mod-card-top"></div><div class="mod-card-body">${logosHtml}<div class="mod-num">${m.num}</div><div class="mod-title">${m.title}</div><div class="mod-desc">${m.desc}</div><div class="mod-progress"><div class="mod-prog-row"><span class="mod-prog-label">Reading</span><div class="mod-prog-bar"><div class="mod-prog-fill read" style="width:${readPct}%"></div></div><span class="mod-prog-pct">${readPct}%</span></div><div class="mod-prog-row"><span class="mod-prog-label">Questions</span><div class="mod-prog-bar"><div class="mod-prog-fill quiz" style="width:${qPct!==null?qPct:0}%"></div></div><span class="mod-prog-pct">${qPct!==null?qPct+'%':'—'}</span></div></div><div class="mod-card-footer"><span class="mod-tag">${m.tag}</span><button class="btn-read" onclick="openTOC(${i})">Read</button></div></div></div>`;
   }).join('');
 }
 
 function openTOC(modIdx){
   currentModIndex = modIdx;
   const m = MODULES[modIdx];
-  document.getElementById('tocCard').innerHTML =`<div class="toc-head"><div class="mod-label">${m.num}</div><h2>${m.title}</h2></div><div class="toc-body">${m.chapters.map((ch,i)=>{const isRead = readProgress[modIdx][i];return `<div class="toc-item" onclick="openChapter(${modIdx},${i})"><div class="toc-index" style="${isRead?'background:#dcfce7;color:#16a34a;':''}">&#${isRead?10003:i+49};</div><div class="toc-text"><h4>${ch.title}</h4><p>${isRead?'✓ Read':''}</p></div>${isRead?'<span class="toc-read-badge">✓ Read</span>':''}<div class="toc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>`;}).join('')}</div>`;
+  const logosHtml = m.logos ? `<div style="display:flex; gap:20px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; padding:20px; background:#f3f4f6; border-radius:8px;">
+    ${m.logos.map((logo,lidx)=>{
+      const isGlovadipFirst = logo === 'Glovadip logo_page-0001.png' && lidx === 0;
+      const isGlovadipSecond = logo === 'Glovadip logo_page-0001.png' && lidx === 1;
+      if(isGlovadipFirst){
+        return `<img src="Glovadip-Alone.png" alt="Glovadip" style="height:80px; max-width:160px; object-fit:contain; mix-blend-mode:multiply;">`;
+      }
+      if(isGlovadipSecond){
+        return `<img src="Glovadip-HCP.png" alt="Glovadip HCP" style="height:80px; max-width:160px; object-fit:contain; mix-blend-mode:multiply;">`;
+      }
+      return `<img src="${logo}" alt="Product Logo" style="height:80px; max-width:160px; object-fit:contain;">`;
+    }).join('')}
+  </div>` : '';
+  document.getElementById('tocCard').innerHTML =`<div class="toc-head">${logosHtml}<div class="mod-label">${m.num}</div><h2>${m.title}</h2></div><div class="toc-body">${m.chapters.map((ch,i)=>{const isRead = readProgress[modIdx][i];return `<div class="toc-item" onclick="openChapter(${modIdx},${i})"><div class="toc-index" style="${isRead?'background:#dcfce7;color:#16a34a;':''}">&#${isRead?10003:i+49};</div><div class="toc-text"><h4>${ch.title}</h4><p>${isRead?'✓ Read':''}</p></div>${isRead?'<span class="toc-read-badge">✓ Read</span>':''}<div class="toc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div>`;}).join('')}</div>`;
   showView('toc', null);
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('nav-modules').classList.add('active');
@@ -1225,8 +1364,21 @@ function openChapter(modIdx, chapIdx){
 function renderChapter(){
   const m  = MODULES[currentModIndex];
   const ch = m.chapters[currentChapter];
+  const logosHtml = m.logos ? `<div style="display:flex; gap:20px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; padding:20px; background:#f3f4f6; border-radius:8px;">
+    ${m.logos.map((logo,lidx)=>{
+      const isGlovadipFirst = logo === 'Glovadip logo_page-0001.png' && lidx === 0;
+      const isGlovadipSecond = logo === 'Glovadip logo_page-0001.png' && lidx === 1;
+      if(isGlovadipFirst){
+        return `<img src="Glovadip-Alone.png" alt="Glovadip" style="height:80px; max-width:160px; object-fit:contain; mix-blend-mode:multiply;">`;
+      }
+      if(isGlovadipSecond){
+        return `<img src="Glovadip-HCP.png" alt="Glovadip HCP" style="height:80px; max-width:160px; object-fit:contain; mix-blend-mode:multiply;">`;
+      }
+      return `<img src="${logo}" alt="Product Logo" style="height:80px; max-width:160px; object-fit:contain;">`;
+    }).join('')}
+  </div>` : '';
   document.getElementById('readChapterLabel').textContent = `${currentChapter+1} of ${m.chapters.length}`;
-  document.getElementById('readDoc').innerHTML =`<div class="read-doc-head"><div style="font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:6px">${m.num} · Chapter ${currentChapter+1}</div><h1>${ch.title}</h1><p>${m.title}</p></div><div class="read-doc-body">${ch.content}</div>`;
+  document.getElementById('readDoc').innerHTML =`<div class="read-doc-head">${logosHtml}<div style="font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c8a84b;margin-bottom:6px">${m.num} · Chapter ${currentChapter+1}</div><h1>${ch.title}</h1><p>${m.title}</p></div><div class="read-doc-body">${ch.content}</div>`;
   document.getElementById('btnPrevChapter').style.visibility = currentChapter===0?'hidden':'visible';
   document.getElementById('btnNextChapter').textContent = currentChapter===m.chapters.length-1?'Finish':'Next ›';
 }
@@ -1370,8 +1522,46 @@ function doSearch(val){
 
 function saveProfile(){
   const name = document.getElementById('pfName').value.trim();
-  if(name){document.getElementById('headerUser').textContent = name;const initials = name.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);document.getElementById('headerAvatar').textContent = initials;document.getElementById('profileAvatarBig').textContent = initials;document.getElementById('profileName').textContent = name;sessionStorage.setItem('portalUser', name);}
+  if(name){
+    const userName = name.split('@')[0] || name;
+    document.getElementById('headerUser').textContent = userName;
+    const initials = name.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('headerAvatar').textContent = initials;
+    document.getElementById('profileAvatarBig').textContent = initials;
+    document.getElementById('profileName').textContent = name;
+    sessionStorage.setItem('portalUser', name);
+  }
   showToast('Profile saved successfully.');
+}
+
+function logout(){
+  sessionStorage.removeItem('portalUser');
+  window.location.href='portal.html';
+}
+
+function submitFeedback(e){
+  e.preventDefault();
+  const msg = document.getElementById('feedbackMsg').value.trim();
+  const mod = document.getElementById('feedbackMod').value;
+  const type = document.getElementById('feedbackType').value;
+  
+  if(!msg || !mod || !type) {
+    showToast('Please fill all required fields');
+    return;
+  }
+  
+  // Show success message
+  document.getElementById('feedbackForm').style.display='none';
+  document.getElementById('feedbackSuccess').style.display='block';
+  
+  // Reset after 3 seconds
+  setTimeout(()=>{
+    document.getElementById('feedbackForm').reset();
+    document.getElementById('feedbackForm').style.display='block';
+    document.getElementById('feedbackSuccess').style.display='none';
+  }, 3000);
+  
+  showToast('Feedback submitted successfully!');
 }
 
 function logout(){
